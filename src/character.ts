@@ -13,6 +13,8 @@ export function createCharacter(
     y: 300,
     radius: 6,
     dt: 0,
+    rotation: kontra.degToRad(270),
+
     render(this: Sprite) {
       if (this.context != null) {
         // White triangle
@@ -68,7 +70,7 @@ export function createCharacter(
               y: this.y + sin * 12,
               dx: this.dx + cos * 5,
               dy: this.dy + sin * 5,
-              //   ttl: 50,
+              ttl: 50,
               radius: 2,
               width: 2,
               height: 2,
