@@ -1,14 +1,16 @@
-import kontra, { Sprite, init, GameLoop } from 'kontra'
+import kontra, { Sprite, init, GameLoop, initPointer, onKey } from 'kontra'
 import SpriteState from './SpriteState'
 import { createCharacter } from './character'
 
 const { canvas } = init()
 
 kontra.initKeys()
+initPointer()
 
 const sprites = new SpriteState()
 
 const ship = createCharacter(sprites)
+
 sprites.push(ship)
 
 function createAsteroid(x: number, y: number, radius: number): void {
@@ -19,6 +21,8 @@ function createAsteroid(x: number, y: number, radius: number): void {
     radius,
     // dx: Math.random() * 4 - 2,
     // dy: Math.random() * 4 - 2,
+    dx: 1,
+    dy: 0,
 
     render() {
       if (this.context != null) {
@@ -37,7 +41,8 @@ for (let i = 0; i < 1; i++) {
 }
 
 const loop = GameLoop({
-  update: function () {
+  update: function (this: GameLoop) {
+    sprites.refresh()
     sprites.forEach((sprite) => {
       // sprite is beyond the left edge
       const radius: number = sprite.radius
@@ -92,4 +97,11 @@ const loop = GameLoop({
   },
 })
 
+onKey('esc', () => {
+  if (loop.isStopped) {
+    loop.start()
+  } else {
+    loop.stop()
+  }
+})
 loop.start()
