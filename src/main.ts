@@ -1,8 +1,9 @@
-import kontra, { Sprite, init, GameLoop } from 'kontra';
+import kontra, { Sprite, init, GameLoop } from 'kontra'
+import SpriteState from './SpriteState'
 
-const { canvas } = init();
+const { canvas } = init()
 
-kontra.initKeys();
+kontra.initKeys()
 
 const ship = Sprite({
   type: 'ship',
@@ -12,44 +13,44 @@ const ship = Sprite({
   dt: 0,
   render() {
     if (this.context != null) {
-      this.context.strokeStyle = 'white';
-      this.context.beginPath();
-      this.context.moveTo(-3, -5);
-      this.context.lineTo(12, 0);
-      this.context.lineTo(-3, 5);
-      this.context.closePath();
-      this.context.stroke();
+      this.context.strokeStyle = 'white'
+      this.context.beginPath()
+      this.context.moveTo(-3, -5)
+      this.context.lineTo(12, 0)
+      this.context.lineTo(-3, 5)
+      this.context.closePath()
+      this.context.stroke()
     }
   },
   update() {
     if (this.rotation != null) {
       if (kontra.keyPressed(['arrowleft', 'a'])) {
-        this.rotation = this.rotation + kontra.degToRad(-4);
+        this.rotation = this.rotation + kontra.degToRad(-4)
       } else if (kontra.keyPressed(['arrowright', 'd'])) {
-        this.rotation = this.rotation + kontra.degToRad(4);
+        this.rotation = this.rotation + kontra.degToRad(4)
       }
-      const cos = Math.cos(this.rotation);
-      const sin = Math.sin(this.rotation);
+      const cos = Math.cos(this.rotation)
+      const sin = Math.sin(this.rotation)
 
       if (kontra.keyPressed(['arrowkeyup', 'w'])) {
-        this.ddx = cos * 0.05;
-        this.ddy = sin * 0.05;
+        this.ddx = cos * 0.05
+        this.ddy = sin * 0.05
       } else if (kontra.keyPressed(['arrowkeydown', 's'])) {
-        this.ddx = cos * -0.05;
-        this.ddy = sin * -0.05;
+        this.ddx = cos * -0.05
+        this.ddy = sin * -0.05
       } else {
-        this.ddx = 0;
-        this.ddy = 0;
+        this.ddx = 0
+        this.ddy = 0
       }
 
-      this.advance();
+      this.advance()
       if (this.velocity.length() > 5) {
-        if (this.dx != null) this.dx *= 0.95;
-        if (this.dy != null) this.dy *= 0.95;
+        if (this.dx != null) this.dx *= 0.95
+        if (this.dy != null) this.dy *= 0.95
       }
-      this.dt = (this.dt as number) + 1 / 60;
+      this.dt = (this.dt as number) + 1 / 60
       if (kontra.keyPressed('space') && this.dt > 0.25) {
-        this.dt = 0;
+        this.dt = 0
 
         if (
           typeof this.x === 'number' &&
@@ -68,17 +69,17 @@ const ship = Sprite({
             radius: 2,
             width: 2,
             height: 2,
-          });
+          })
 
-          sprites.push(bullet);
+          sprites.push(bullet)
         }
       }
     }
   },
-});
+})
 
-let sprites: Sprite[] = [];
-sprites.push(ship);
+const sprites = new SpriteState()
+sprites.push(ship)
 
 function createAsteroid(x: number, y: number, radius: number): void {
   const asteroid = Sprite({
@@ -91,74 +92,74 @@ function createAsteroid(x: number, y: number, radius: number): void {
 
     render() {
       if (this.context != null) {
-        this.context.strokeStyle = 'white';
-        this.context.beginPath();
-        this.context.arc(0, 0, this.radius, 0, Math.PI * 2);
-        this.context.stroke();
+        this.context.strokeStyle = 'white'
+        this.context.beginPath()
+        this.context.arc(0, 0, this.radius, 0, Math.PI * 2)
+        this.context.stroke()
       }
     },
-  });
-  sprites.push(asteroid);
+  })
+  sprites.push(asteroid)
 }
 
 for (let i = 0; i < 4; i++) {
-  createAsteroid(100, 100, 30);
+  createAsteroid(100, 100, 30)
 }
 
 const loop = GameLoop({
   update: function () {
     sprites.forEach((sprite) => {
       // sprite is beyond the left edge
-      const radius: number = sprite.radius;
+      const radius: number = sprite.radius
       if (sprite.x < -radius) {
-        sprite.x = canvas.width + radius;
+        sprite.x = canvas.width + radius
       } else if (sprite.x > canvas.width + radius) {
         // sprite is beyond the right edge
-        sprite.x = 0 - radius;
+        sprite.x = 0 - radius
       }
       // sprite is beyond the top edge
       if (sprite.y < -radius) {
-        sprite.y = canvas.height + radius;
+        sprite.y = canvas.height + radius
       } else if (sprite.y > canvas.height + radius) {
         // sprite is beyond the bottom edge
-        sprite.y = -radius;
+        sprite.y = -radius
       }
-      sprite.update();
-    });
+      sprite.update()
+    })
 
     // collision detection
-    for (let i = 0; i < sprites.length; i++) {
-      if (sprites[i].type === 'asteroid') {
-        for (let j = 0; j < sprites.length; j++) {
-          if (sprites[j].type !== 'asteroid') {
-            let asteroid = sprites[i];
-            let sprite = sprites[j];
-            let dx = asteroid.x - sprite.y;
-            let dy = asteroid.y - sprite.y;
+    for (let i = 0; i < sprites.length(); i++) {
+      if (sprites.get(i).type === 'asteroid') {
+        for (let j = 0; j < sprites.length(); j++) {
+          if (sprites.get(j).type !== 'asteroid') {
+            let asteroid = sprites.get(i)
+            let sprite = sprites.get(j)
+            let dx = asteroid.x - sprite.y
+            let dy = asteroid.y - sprite.y
             if (Math.hypot(dx, dy) < asteroid.radius + sprite.radius) {
-              asteroid.ttl = 0;
-              sprite.ttl = 0;
+              asteroid.ttl = 0
+              sprite.ttl = 0
 
               if (asteroid.radius > 10) {
                 for (var x = 0; x < 3; x++) {
-                  createAsteroid(asteroid.x, asteroid.y, asteroid.radius / 2.5);
+                  createAsteroid(asteroid.x, asteroid.y, asteroid.radius / 2.5)
                 }
               }
 
-              break;
+              break
             }
           }
         }
       }
     }
 
-    sprites = sprites.filter((sprite) => sprite.isAlive());
+    sprites.filter((sprite) => sprite.isAlive())
   },
   render: function () {
     sprites.forEach((sprite) => {
-      sprite.render();
-    });
+      sprite.render()
+    })
   },
-});
+})
 
-loop.start();
+loop.start()
