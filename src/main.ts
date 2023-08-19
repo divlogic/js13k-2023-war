@@ -21,7 +21,7 @@ function createAsteroid(x: number, y: number, radius: number): void {
     radius,
     // dx: Math.random() * 4 - 2,
     // dy: Math.random() * 4 - 2,
-    dx: 1,
+    dx: 0,
     dy: 0,
 
     render() {
@@ -37,7 +37,7 @@ function createAsteroid(x: number, y: number, radius: number): void {
 }
 
 for (let i = 0; i < 1; i++) {
-  createAsteroid(100, 100, 30)
+  createAsteroid(300, 100, 30)
 }
 
 const loop = GameLoop({
@@ -66,12 +66,16 @@ const loop = GameLoop({
     for (let i = 0; i < sprites.length(); i++) {
       if (sprites.get(i).type === 'asteroid') {
         for (let j = 0; j < sprites.length(); j++) {
-          if (sprites.get(j).type !== 'asteroid') {
+          if (
+            sprites.get(j).type !== 'asteroid' &&
+            sprites.get(j).type !== 'character'
+          ) {
             let asteroid = sprites.get(i)
             let sprite = sprites.get(j)
-            let dx = asteroid.x - sprite.y
+            let dx = asteroid.x - sprite.x
             let dy = asteroid.y - sprite.y
-            if (Math.hypot(dx, dy) < asteroid.radius + sprite.radius) {
+            const hyp = Math.hypot(dx, dy)
+            if (hyp < asteroid.radius + sprite.radius) {
               asteroid.ttl = 0
               sprite.ttl = 0
 
