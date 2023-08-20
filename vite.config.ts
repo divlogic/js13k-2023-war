@@ -1,9 +1,13 @@
-import kontra from 'rollup-plugin-kontra';
+// @ts-ignore
+import kontra from 'rollup-plugin-kontra'
+/** @type {import('vite').UserConfig} */
 export default {
   build: {
     rollupOptions: {
-      entry: 'main.js',
-      dest: 'bundle.js',
+      treeshake: true,
+      // entry: 'main.js',
+      // dest: 'bundle.js',
+      output: { compact: true },
       plugins: [
         kontra({
           gameObject: {
@@ -23,4 +27,4 @@ export default {
       ],
     },
   },
-};
+}
