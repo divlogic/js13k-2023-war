@@ -1,12 +1,7 @@
-import kontra, { Sprite } from 'kontra'
+import kontra, { Sprite, SpriteClass, SpriteConstructor } from 'kontra'
 import SpriteState from './SpriteState'
 
-interface Character extends Sprite {}
-
-export function createCharacter(
-  sprites: SpriteState,
-  params?: Character
-): Character {
+export function createCharacter(sprites: SpriteState) {
   const defaults = {
     type: 'character',
     x: 300,
@@ -40,9 +35,9 @@ export function createCharacter(
         const cos = Math.cos(this.rotation)
         const sin = Math.sin(this.rotation)
 
-        if (kontra.keyPressed(['arrowkeyup', 'w'])) {
+        if (kontra.keyPressed(['arrowup', 'w'])) {
           this.y = this.y - this.moveSpeed
-        } else if (kontra.keyPressed(['arrowkeydown', 's'])) {
+        } else if (kontra.keyPressed(['arrowdown', 's'])) {
           this.y = this.y + this.moveSpeed
         }
 
@@ -87,8 +82,7 @@ export function createCharacter(
       }
     },
   }
-  const updated = Object.assign(defaults, params)
 
-  const character = Sprite(updated)
+  const character = Sprite(defaults)
   return character
 }
