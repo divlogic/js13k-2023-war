@@ -1,4 +1,9 @@
-import kontra, { Sprite, angleToTarget, getPointer } from 'kontra'
+import kontra, {
+  Sprite,
+  angleToTarget,
+  getPointer,
+  pointerPressed,
+} from 'kontra'
 import SpriteState from './SpriteState'
 
 export function createCharacter(sprites: SpriteState) {
@@ -58,7 +63,7 @@ export function createCharacter(sprites: SpriteState) {
           if (this.dy != null) this.dy *= 0.95
         }
         this.dt = (this.dt as number) + 1 / 60
-        if (kontra.keyPressed('space') && this.dt > 0.25) {
+        if (pointerPressed('left') && this.dt > 0.25) {
           this.dt = 0
 
           if (
