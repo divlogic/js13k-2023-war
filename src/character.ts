@@ -13,6 +13,7 @@ export function createCharacter(
     y: 300,
     radius: 6,
     dt: 0,
+    moveSpeed: 4,
     rotation: kontra.degToRad(270),
 
     render(this: Sprite) {
@@ -30,21 +31,25 @@ export function createCharacter(
     update(this: Sprite) {
       if (this.rotation != null) {
         if (kontra.keyPressed(['arrowleft', 'a'])) {
-          this.rotation = this.rotation + kontra.degToRad(-4)
+          // this.rotation = this.rotation + kontra.degToRad(-4)
+          this.x = this.x - this.moveSpeed
         } else if (kontra.keyPressed(['arrowright', 'd'])) {
-          this.rotation = this.rotation + kontra.degToRad(4)
+          // this.rotation = this.rotation + kontra.degToRad(4)
+          this.x = this.x + this.moveSpeed
         }
         const cos = Math.cos(this.rotation)
         const sin = Math.sin(this.rotation)
 
         if (kontra.keyPressed(['arrowkeyup', 'w'])) {
-          this.ddx = cos * 0.05
-          this.ddy = sin * 0.05
+          this.y = this.y - this.moveSpeed
         } else if (kontra.keyPressed(['arrowkeydown', 's'])) {
-          this.ddx = cos * -0.05
-          this.ddy = sin * -0.05
-        } else {
+          this.y = this.y + this.moveSpeed
+        }
+
+        if (this.x === this.context.canvas.width) {
           this.ddx = 0
+        }
+        if (this.y === this.context.canvas.height) {
           this.ddy = 0
         }
 
