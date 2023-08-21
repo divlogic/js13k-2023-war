@@ -1,6 +1,7 @@
 import kontra, { Sprite, init, GameLoop, initPointer, onKey } from 'kontra'
 import SpriteState from './SpriteState'
 import { createCharacter } from './character'
+import { detectCollisions, handleBounds } from './collisionDetection'
 
 const { canvas } = init()
 
@@ -9,88 +10,48 @@ initPointer()
 
 const sprites = new SpriteState()
 
-const ship = createCharacter(sprites)
+// const ship = Character.create(sprites)/
+const ship = createCharacter(sprites, {})
 
 sprites.push(ship)
 
-function createAsteroid(x: number, y: number, radius: number): void {
-  const asteroid = Sprite({
-    type: 'asteroid',
-    x,
-    y,
-    radius,
-    // dx: Math.random() * 4 - 2,
-    // dy: Math.random() * 4 - 2,
-    dx: 0,
-    dy: 0,
+// export function createAsteroid(x: number, y: number, radius: number): void {
+//   const asteroid = Sprite({
+//     type: 'asteroid',
+//     x,
+//     y,
+//     radius,
+//     // dx: Math.random() * 4 - 2,
+//     // dy: Math.random() * 4 - 2,
+//     dx: 0,
+//     dy: 0,
 
-    render() {
-      if (this.context != null) {
-        this.context.strokeStyle = 'white'
-        this.context.beginPath()
-        this.context.arc(0, 0, this.radius, 0, Math.PI * 2)
-        this.context.stroke()
-      }
-    },
-  })
-  sprites.push(asteroid)
-}
+//     render() {
+//       if (this.context != null) {
+//         this.context.strokeStyle = 'white'
+//         this.context.beginPath()
+//         this.context.arc(0, 0, this.radius, 0, Math.PI * 2)
+//         this.context.stroke()
+//       }
+//     },
+//   })
+//   sprites.push(asteroid)
+// }
 
-for (let i = 0; i < 1; i++) {
-  createAsteroid(300, 100, 30)
-}
+// for (let i = 0; i < 1; i++) {
+//   createAsteroid(300, 100, 30)
+// }
 
 const loop = GameLoop({
+  // fps: 1,
   update: function (this: GameLoop) {
     sprites.refresh()
     sprites.forEach((sprite) => {
-      // sprite is beyond the left edge
-      const radius: number = sprite.radius
-      if (sprite.x < -radius) {
-        sprite.x = canvas.width + radius
-      } else if (sprite.x > canvas.width + radius) {
-        // sprite is beyond the right edge
-        sprite.x = 0 - radius
-      }
-      // sprite is beyond the top edge
-      if (sprite.y < -radius) {
-        sprite.y = canvas.height + radius
-      } else if (sprite.y > canvas.height + radius) {
-        // sprite is beyond the bottom edge
-        sprite.y = -radius
-      }
-      sprite.update()
+      handleBounds(sprite, canvas)
     })
 
     // collision detection
-    for (let i = 0; i < sprites.length(); i++) {
-      if (sprites.get(i).type === 'asteroid') {
-        for (let j = 0; j < sprites.length(); j++) {
-          if (
-            sprites.get(j).type !== 'asteroid' &&
-            sprites.get(j).type !== 'character'
-          ) {
-            let asteroid = sprites.get(i)
-            let sprite = sprites.get(j)
-            let dx = asteroid.x - sprite.x
-            let dy = asteroid.y - sprite.y
-            const hyp = Math.hypot(dx, dy)
-            if (hyp < asteroid.radius + sprite.radius) {
-              asteroid.ttl = 0
-              sprite.ttl = 0
-
-              if (asteroid.radius > 10) {
-                for (var x = 0; x < 3; x++) {
-                  createAsteroid(asteroid.x, asteroid.y, asteroid.radius / 2.5)
-                }
-              }
-
-              break
-            }
-          }
-        }
-      }
-    }
+    detectCollisions(sprites)
 
     sprites.filter((sprite) => sprite.isAlive())
   },
