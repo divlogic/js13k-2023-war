@@ -1,9 +1,11 @@
-import { Sprite } from 'kontra'
+import { Sprite, Quadtree } from 'kontra'
 
 export default class SpriteState {
   data: Sprite[]
+  quadTree: Quadtree
   constructor(initialSprites: Sprite[] = []) {
     this.data = initialSprites
+    this.quadTree = Quadtree()
   }
 
   filter(callback: (sprite: Sprite) => any) {
@@ -16,13 +18,22 @@ export default class SpriteState {
 
   push(sprite: Sprite): void {
     this.data.push(sprite)
+    this.quadTree.add(sprite)
+    if (import.meta.env.DEV) {
+      window.sprites = this
+    }
   }
 
   get(index: number) {
-    return this.data[index]
+    const sprite = this.data[index]
+    return sprite
   }
 
   length(): number {
     return this.data.length
+  }
+  refresh(): void {
+    this.quadTree.clear()
+    this.quadTree.add(this.data)
   }
 }
