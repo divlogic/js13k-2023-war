@@ -1,4 +1,11 @@
-import kontra, { Sprite, init, GameLoop, initPointer, onKey } from 'kontra'
+import kontra, {
+  Sprite,
+  init,
+  GameLoop,
+  initPointer,
+  onKey,
+  onPointer,
+} from 'kontra'
 import SpriteState from './SpriteState'
 import { createCharacter } from './character'
 import { detectCollisions, handleBounds } from './collisionDetection'
@@ -11,7 +18,7 @@ initPointer()
 const sprites = new SpriteState()
 
 // const ship = Character.create(sprites)/
-const ship = createCharacter(sprites, {})
+const ship = createCharacter(sprites)
 
 sprites.push(ship)
 

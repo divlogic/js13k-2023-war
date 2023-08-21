@@ -1,4 +1,4 @@
-import kontra, { Sprite, SpriteClass, SpriteConstructor } from 'kontra'
+import kontra, { Sprite, angleToTarget, getPointer } from 'kontra'
 import SpriteState from './SpriteState'
 
 export function createCharacter(sprites: SpriteState) {
@@ -24,6 +24,10 @@ export function createCharacter(sprites: SpriteState) {
       }
     },
     update(this: Sprite) {
+      const pointer = getPointer()
+
+      const angle = angleToTarget(this, pointer)
+      this.rotation = angle
       if (this.rotation != null) {
         if (kontra.keyPressed(['arrowleft', 'a'])) {
           // this.rotation = this.rotation + kontra.degToRad(-4)
