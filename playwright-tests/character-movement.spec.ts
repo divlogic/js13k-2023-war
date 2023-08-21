@@ -1,12 +1,6 @@
-import { test, expect, Page } from '@playwright/test'
+import { test, expect } from '@playwright/test'
+import { getSprites } from './utils'
 
-async function getSprites(page: Page) {
-  const spritesHandle = await page.evaluateHandle(() => {
-    return window.sprites
-  })
-
-  return await spritesHandle.jsonValue()
-}
 test('Can move using wasd', async ({ page }) => {
   await page.goto('localhost:5173')
 
