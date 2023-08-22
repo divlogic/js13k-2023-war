@@ -18,7 +18,7 @@ export class Weapon extends SpriteClass {
       const cos = Math.cos(this.world.rotation)
       const sin = Math.sin(this.world.rotation)
       const bullet = this.pool.get({
-        team: this.parent.team,
+        team: this.parent?.team,
         type: 'bullet',
         color: 'white',
         x: this.world.x + cos * 12,
