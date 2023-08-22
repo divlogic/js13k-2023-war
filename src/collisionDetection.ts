@@ -3,34 +3,20 @@ import SpriteState from './SpriteState'
 // import { createAsteroid } from './main'
 
 export function detectCollisions(sprites: SpriteState) {
-  for (let i = 0; i < sprites.length(); i++) {
-    if (sprites.get(i).type === 'asteroid') {
-      for (let j = 0; j < sprites.length(); j++) {
-        if (
-          sprites.get(j).type !== 'asteroid' &&
-          sprites.get(j).type !== 'character'
-        ) {
-          let asteroid = sprites.get(i)
-          let sprite = sprites.get(j)
-          let dx = asteroid.x - sprite.x
-          let dy = asteroid.y - sprite.y
-          const hyp = Math.hypot(dx, dy)
-          if (hyp < asteroid.radius + sprite.radius) {
-            asteroid.ttl = 0
-            sprite.ttl = 0
-
-            if (asteroid.radius > 10) {
-              for (var x = 0; x < 3; x++) {
-                // createAsteroid(asteroid.x, asteroid.y, asteroid.radius / 2.5)
-              }
-            }
-
-            break
-          }
+  sprites.forEach((sprite) => {
+    const nearBySprites = sprites.quadTree.get(sprite)
+    nearBySprites.forEach((neighbor) => {
+      if (neighbor.type === 'character' && neighbor.team !== sprite.team) {
+        let dx = neighbor.x - sprite.x
+        let dy = neighbor.y - sprite.y
+        const hyp = Math.hypot(dx, dy)
+        if (hyp < sprite.radius + sprite.radius) {
+          neighbor.ttl = 0
+          sprite.ttl = 0
         }
       }
-    }
-  }
+    })
+  })
 }
 
 export function handleBounds(sprite: Sprite, canvas: HTMLCanvasElement) {

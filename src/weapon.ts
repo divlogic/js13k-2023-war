@@ -18,13 +18,14 @@ export class Weapon extends SpriteClass {
       const cos = Math.cos(this.world.rotation)
       const sin = Math.sin(this.world.rotation)
       const bullet = this.pool.get({
+        team: this.parent.team,
         type: 'bullet',
         color: 'white',
         x: this.world.x + cos * 12,
         y: this.world.y + sin * 12,
         dx: this.dx + cos * 5,
         dy: this.dy + sin * 5,
-        ttl: 50,
+        ttl: 200,
         radius: 2,
         width: 2,
         height: 2,
@@ -39,7 +40,6 @@ export class Weapon extends SpriteClass {
   update(dt?: number | undefined): void {
     super.update(dt)
     if (pointerPressed('left')) {
-      console.log('click?')
       this.attack()
     }
   }

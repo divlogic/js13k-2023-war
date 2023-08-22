@@ -18,8 +18,7 @@ initPointer()
 
 const sprites = new SpriteState()
 
-// const ship = createCharacter()
-const ship = new Character({ x: 300, y: 300, player: true })
+const ship = new Character({ x: 300, y: 300, player: true, team: 'blue' })
 
 sprites.push(ship)
 
@@ -49,33 +48,6 @@ const fireLance = new Weapon({
 // This handles the positioning and visual aspect,
 // but it doesn't seem to address other relational aspects.
 ship.addChild(fireLance)
-
-// export function createAsteroid(x: number, y: number, radius: number): void {
-//   const asteroid = Sprite({
-//     type: 'asteroid',
-//     x,
-//     y,
-//     radius,
-//     // dx: Math.random() * 4 - 2,
-//     // dy: Math.random() * 4 - 2,
-//     dx: 0,
-//     dy: 0,
-
-//     render() {
-//       if (this.context != null) {
-//         this.context.strokeStyle = 'white'
-//         this.context.beginPath()
-//         this.context.arc(0, 0, this.radius, 0, Math.PI * 2)
-//         this.context.stroke()
-//       }
-//     },
-//   })
-//   sprites.push(asteroid)
-// }
-
-// for (let i = 0; i < 1; i++) {
-//   createAsteroid(300, 100, 30)
-// }
 
 const loop = GameLoop({
   // fps: 1,

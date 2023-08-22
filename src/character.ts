@@ -2,6 +2,7 @@ import kontra, { Sprite, SpriteClass, angleToTarget, getPointer } from 'kontra'
 
 export class Character extends SpriteClass {
   type = 'character'
+  team: string
   moveSpeed: number
   player: boolean
 
@@ -9,11 +10,12 @@ export class Character extends SpriteClass {
     super(properties)
     this.moveSpeed = properties.moveSpeed ?? 5
     this.player = properties.player ?? false
+    this.team = properties.team ?? 'red'
   }
   draw(this: Sprite) {
     if (this.context != null) {
-      // White triangle
-      this.context.strokeStyle = 'white'
+      // Color can be changed later
+      this.context.strokeStyle = this.team
       this.context.beginPath()
       this.context.moveTo(-3, -5)
       this.context.lineTo(12, 0)
