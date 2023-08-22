@@ -10,6 +10,11 @@ import SpriteState from './SpriteState'
 import { Character } from './character'
 import { detectCollisions, handleBounds } from './collisionDetection'
 import { Weapon } from './weapon'
+declare global {
+  interface Window {
+    sprites: any
+  }
+}
 
 const { canvas } = init()
 
