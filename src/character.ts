@@ -1,12 +1,6 @@
-import kontra, {
-  Sprite,
-  angleToTarget,
-  getPointer,
-  pointerPressed,
-} from 'kontra'
-import SpriteState from './SpriteState'
+import kontra, { Sprite, angleToTarget, getPointer } from 'kontra'
 
-export function createCharacter(sprites: SpriteState) {
+export function createCharacter() {
   const defaults = {
     type: 'character',
     x: 300,
@@ -63,31 +57,6 @@ export function createCharacter(sprites: SpriteState) {
           if (this.dy != null) this.dy *= 0.95
         }
         this.dt = (this.dt as number) + 1 / 60
-        if (pointerPressed('left') && this.dt > 0.25) {
-          this.dt = 0
-
-          if (
-            typeof this.x === 'number' &&
-            typeof this.y === 'number' &&
-            typeof this.dx === 'number' &&
-            typeof this.dy === 'number'
-          ) {
-            const bullet = Sprite({
-              type: 'bullet',
-              color: 'white',
-              x: this.x + cos * 12,
-              y: this.y + sin * 12,
-              dx: this.dx + cos * 5,
-              dy: this.dy + sin * 5,
-              ttl: 50,
-              radius: 2,
-              width: 2,
-              height: 2,
-            })
-
-            sprites.push(bullet)
-          }
-        }
       }
     },
   }

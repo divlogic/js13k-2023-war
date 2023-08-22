@@ -20,7 +20,7 @@ initPointer()
 const sprites = new SpriteState()
 
 // const ship = Character.create(sprites)/
-const ship = createCharacter(sprites)
+const ship = createCharacter()
 
 sprites.push(ship)
 
