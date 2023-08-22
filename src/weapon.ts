@@ -1,4 +1,4 @@
-import { Pool, PoolClass, Sprite, SpriteClass, pointerPressed } from 'kontra'
+import { Pool, Sprite, SpriteClass, pointerPressed } from 'kontra'
 import SpriteState from './SpriteState'
 
 export class Weapon extends SpriteClass {
@@ -33,11 +33,13 @@ export class Weapon extends SpriteClass {
       // I think calling this line will be highly dependent on
       // what kind of weapon it is, like sword vs projectile
       //   this.addChild(bullet)
-      this.sprites.push(bullet)
+      this.sprites.push(bullet as Sprite)
     }
   }
   update(dt?: number | undefined): void {
+    super.update(dt)
     if (pointerPressed('left')) {
+      console.log('click?')
       this.attack()
     }
   }
