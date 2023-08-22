@@ -1,48 +1,36 @@
-import kontra, { Sprite, angleToTarget, getPointer } from 'kontra'
+import kontra, { Sprite, SpriteClass, angleToTarget, getPointer } from 'kontra'
 
-export function createCharacter() {
-  const defaults = {
-    type: 'character',
-    x: 300,
-    y: 300,
-    radius: 6,
-    dt: 0,
-    moveSpeed: 4,
-    rotation: kontra.degToRad(270),
+export class Character extends SpriteClass {
+  type = 'character'
+  moveSpeed: number
+  player: boolean
 
-    render(this: Sprite) {
-      if (this.context != null) {
-        // White triangle
-        this.context.strokeStyle = 'white'
-        this.context.beginPath()
-        this.context.moveTo(-3, -5)
-        this.context.lineTo(12, 0)
-        this.context.lineTo(-3, 5)
-        this.context.closePath()
-        this.context.stroke()
-      }
-    },
-    update(this: Sprite) {
+  constructor(properties: any = {}) {
+    super(properties)
+    this.moveSpeed = properties.moveSpeed ?? 5
+    this.player = properties.player ?? false
+  }
+  draw(this: Sprite) {
+    if (this.context != null) {
+      // White triangle
+      this.context.strokeStyle = 'white'
+      this.context.beginPath()
+      this.context.moveTo(-3, -5)
+      this.context.lineTo(12, 0)
+      this.context.lineTo(-3, 5)
+      this.context.closePath()
+      this.context.stroke()
+    }
+  }
+  update(dt?: number | undefined): void {
+    super.update(dt)
+    if (this.player) {
       const pointer = getPointer()
 
       const angle = angleToTarget(this, pointer)
       this.rotation = angle
       if (this.rotation != null) {
-        if (kontra.keyPressed(['arrowleft', 'a'])) {
-          // this.rotation = this.rotation + kontra.degToRad(-4)
-          this.x = this.x - this.moveSpeed
-        } else if (kontra.keyPressed(['arrowright', 'd'])) {
-          // this.rotation = this.rotation + kontra.degToRad(4)
-          this.x = this.x + this.moveSpeed
-        }
-        const cos = Math.cos(this.rotation)
-        const sin = Math.sin(this.rotation)
-
-        if (kontra.keyPressed(['arrowup', 'w'])) {
-          this.y = this.y - this.moveSpeed
-        } else if (kontra.keyPressed(['arrowdown', 's'])) {
-          this.y = this.y + this.moveSpeed
-        }
+        this.handleKeys()
 
         if (this.x === this.context.canvas.width) {
           this.ddx = 0
@@ -58,9 +46,31 @@ export function createCharacter() {
         }
         this.dt = (this.dt as number) + 1 / 60
       }
-    },
+    }
   }
+  handleKeys() {
+    if (kontra.keyPressed(['arrowleft', 'a'])) {
+      this.moveLeft()
+    } else if (kontra.keyPressed(['arrowright', 'd'])) {
+      this.moveRight()
+    }
 
-  const character = Sprite(defaults)
-  return character
+    if (kontra.keyPressed(['arrowup', 'w'])) {
+      this.moveUp()
+    } else if (kontra.keyPressed(['arrowdown', 's'])) {
+      this.moveDown()
+    }
+  }
+  moveLeft() {
+    this.x = this.x - this.moveSpeed
+  }
+  moveRight() {
+    this.x = this.x + this.moveSpeed
+  }
+  moveUp() {
+    this.y = this.y - this.moveSpeed
+  }
+  moveDown() {
+    this.y = this.y + this.moveSpeed
+  }
 }

@@ -4,11 +4,10 @@ import kontra, {
   GameLoop,
   initPointer,
   onKey,
-  onPointer,
   Pool,
 } from 'kontra'
 import SpriteState from './SpriteState'
-import { createCharacter } from './character'
+import { Character } from './character'
 import { detectCollisions, handleBounds } from './collisionDetection'
 import { Weapon } from './weapon'
 
@@ -19,10 +18,13 @@ initPointer()
 
 const sprites = new SpriteState()
 
-// const ship = Character.create(sprites)/
-const ship = createCharacter()
+// const ship = createCharacter()
+const ship = new Character({ x: 300, y: 300, player: true })
 
 sprites.push(ship)
+
+const enemy = new Character({ x: 400, y: 200, moveSpeed: 1 })
+sprites.push(enemy)
 
 let pool = Pool({ create: Sprite })
 
