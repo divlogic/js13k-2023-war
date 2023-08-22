@@ -5,6 +5,7 @@ import kontra, {
   initPointer,
   onKey,
   onPointer,
+  Pool,
 } from 'kontra'
 import SpriteState from './SpriteState'
 import { createCharacter } from './character'
@@ -23,7 +24,13 @@ const ship = createCharacter(sprites)
 
 sprites.push(ship)
 
+let pool = Pool({ create: Sprite })
+
 const fireLance = new Weapon({
+  pool,
+  sprites,
+  projectileWeapon: true,
+  types: 'firelance',
   x: 5,
   y: 5,
   render(this: Sprite) {
@@ -37,6 +44,8 @@ const fireLance = new Weapon({
     }
   },
 })
+// This handles the positioning and visual aspect,
+// but it doesn't seem to address other relational aspects.
 ship.addChild(fireLance)
 
 // export function createAsteroid(x: number, y: number, radius: number): void {
