@@ -4,7 +4,7 @@ import SpriteState from './SpriteState'
 
 export function detectCollisions(sprites: SpriteState) {
   sprites.forEach((sprite) => {
-    const nearBySprites = sprites.quadTree.get(sprite)
+    const nearBySprites = sprites.quadTree.get(sprite) as Sprite[]
     nearBySprites.forEach((neighbor) => {
       if (neighbor.type === 'character' && neighbor.team !== sprite.team) {
         let dx = neighbor.x - sprite.x
