@@ -30,6 +30,8 @@ sprites.push(ship)
 const enemy = new Character({ x: 400, y: 200, moveSpeed: 1 })
 sprites.push(enemy)
 
+// This is taken from the example, might be a bug in their type file
+// @ts-ignore
 let pool = Pool({ create: Sprite })
 
 const fireLance = new Weapon({
