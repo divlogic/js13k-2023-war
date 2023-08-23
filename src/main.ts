@@ -10,12 +10,14 @@ import SpriteState from './SpriteState'
 import { Character } from './character'
 import { detectCollisions, handleBounds } from './collisionDetection'
 import { Weapon } from './weapon'
+import { NPC } from './npc'
 declare global {
   interface Window {
     sprites: any
   }
 }
 
+console.log(location)
 const { canvas } = init()
 
 kontra.initKeys()
@@ -27,7 +29,7 @@ const ship = new Character({ x: 300, y: 300, player: true, team: 'blue' })
 
 sprites.push(ship)
 
-const enemy = new Character({ x: 400, y: 200, moveSpeed: 1 })
+const enemy = new NPC({ x: 400, y: 200, moveSpeed: 1 })
 sprites.push(enemy)
 
 // This is taken from the example, might be a bug in their type file
