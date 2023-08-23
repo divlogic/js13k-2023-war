@@ -1,13 +1,14 @@
-// @ts-ignore
 import kontra from 'rollup-plugin-kontra'
-/** @type {import('vite').UserConfig} */
 export default {
   build: {
     rollupOptions: {
       treeshake: true,
       // entry: 'main.js',
       // dest: 'bundle.js',
-      output: { compact: true },
+      output: {
+        compact: true,
+        format: 'iife',
+      },
       plugins: [
         kontra({
           gameObject: {
@@ -16,10 +17,12 @@ export default {
             rotation: true,
             acceleration: true,
             ttl: true,
+            group: true,
           },
           vector: {
             // enable vector length functionality
             length: true,
+            clamp: true,
           },
           // turn on debugging
           debug: false,
