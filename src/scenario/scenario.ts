@@ -1,10 +1,11 @@
-import kontra, {
+import {
   Sprite,
   init,
   GameLoop,
   initPointer,
   onKey,
   Pool,
+  initKeys,
 } from 'kontra'
 import SpriteState from '../SpriteState'
 import { Character } from '../character'
@@ -14,31 +15,27 @@ import { NPC } from '../npc'
 declare global {
   interface Window {
     sprites: any
-    player: Character
-    enemy: NPC
   }
 }
 
-export function npcBehaviorScene() {
+export function createScenario() {
   const { canvas } = init()
 
-  kontra.initKeys()
+  initKeys()
   initPointer()
 
   const sprites = new SpriteState()
 
-  const player = new Character({
+  const ship = new Character({
     x: 300,
     y: 300,
     player: true,
     team: 'blue',
   })
-  window.player = player
 
-  sprites.push(player)
+  sprites.push(ship)
 
-  const enemy = new NPC({ x: 0, y: 0, moveSpeed: 1 })
-  window.enemy = enemy
+  const enemy = new NPC({ x: 400, y: 200, moveSpeed: 1 })
   sprites.push(enemy)
 
   // This is taken from the example, might be a bug in their type file
@@ -63,7 +60,10 @@ export function npcBehaviorScene() {
       }
     },
   })
-  player.addChild(fireLance)
+  // This handles the positioning and visual aspect,
+  // but it doesn't seem to address other relational aspects.
+  console.log(ship)
+  ship.addChild(fireLance)
 
   const loop = GameLoop({
     // fps: 1,
