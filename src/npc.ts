@@ -1,7 +1,11 @@
 import { Character } from './character'
 
 export class NPC extends Character {
-  //
+  // target: null | Character = null
+
+  addTarget(character: Character) {
+    this.target = character
+  }
 
   moveToCoords(x: number, y: number) {
     const xDifference = this.x - x
