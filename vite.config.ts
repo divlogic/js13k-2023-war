@@ -6,6 +6,7 @@ import {
   roadrollerPlugin,
 } from 'js13k-vite-plugins'
 import { defineConfig } from 'vite'
+import replace from '@rollup/plugin-replace'
 
 /**
  * Closure is useful but easily the most finicky of the bunch.
@@ -15,7 +16,11 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   build: defaultViteBuildOptions,
   plugins: [
-    googleClosurePlugin(),
+    // replace({
+    //   Animation: 'KAnimation',
+    //   delimiters: ['', ''],
+    // }),
+    // googleClosurePlugin(),
     roadrollerPlugin(),
     ectPlugin(),
     advzipPlugin(),

@@ -17,5 +17,5 @@
     "noImplicitReturns": true,
     "skipLibCheck": true
   },
-  "include": ["src", "./.eslintrc.cjs",  "vite.config.js", "jest.config.ts"]
+  "include": ["src", "./.eslintrc.cjs",  "vite.config.js", "jest.config.ts", "playwright-tests"]
 }
