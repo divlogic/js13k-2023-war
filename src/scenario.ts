@@ -1,12 +1,11 @@
-import kontra, {
+import {
   Sprite,
   init,
   GameLoop,
   initPointer,
   onKey,
   Pool,
-  getPointer,
-  angleToTarget,
+  initKeys,
 } from 'kontra'
 import SpriteState from './SpriteState'
 import { Character } from './character'
@@ -22,7 +21,7 @@ declare global {
 export function createScenario() {
   const { canvas } = init()
 
-  kontra.initKeys()
+  initKeys()
   initPointer()
 
   const sprites = new SpriteState()
