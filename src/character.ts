@@ -1,4 +1,10 @@
-import kontra, { Sprite, SpriteClass, angleToTarget, getPointer } from 'kontra'
+import {
+  Sprite,
+  SpriteClass,
+  angleToTarget,
+  getPointer,
+  keyPressed,
+} from 'kontra'
 
 export class Character extends SpriteClass {
   type = 'character'
@@ -51,15 +57,15 @@ export class Character extends SpriteClass {
     }
   }
   handleKeys() {
-    if (kontra.keyPressed(['arrowleft', 'a'])) {
+    if (keyPressed(['arrowleft', 'a'])) {
       this.moveLeft()
-    } else if (kontra.keyPressed(['arrowright', 'd'])) {
+    } else if (keyPressed(['arrowright', 'd'])) {
       this.moveRight()
     }
 
-    if (kontra.keyPressed(['arrowup', 'w'])) {
+    if (keyPressed(['arrowup', 'w'])) {
       this.moveUp()
-    } else if (kontra.keyPressed(['arrowdown', 's'])) {
+    } else if (keyPressed(['arrowdown', 's'])) {
       this.moveDown()
     }
   }
