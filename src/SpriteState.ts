@@ -1,5 +1,7 @@
 import { Sprite, Quadtree } from 'kontra'
 
+// I may wish to use a Pool with pool.getAliveObjects()
+// instead of the array method I'm doing now.
 export default class SpriteState {
   data: Sprite[]
   quadTree: Quadtree
@@ -32,6 +34,7 @@ export default class SpriteState {
   length(): number {
     return this.data.length
   }
+
   refresh(): void {
     this.quadTree.clear()
     this.quadTree.add(this.data)
