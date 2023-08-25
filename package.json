@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc && vite build; NODE_OPTIONS=--experimental-vm-modules jest",
     "preview": "vite preview",
     "lint": "eslint",
     "playwright": "playwright test",
