@@ -1,5 +1,6 @@
 import type { Page } from '@playwright/test';
 import { getSprites } from '../utils';
+import type { CoordModel } from '../models/models';
 
 export default class PlayerController {
   page: Page;
@@ -7,11 +8,12 @@ export default class PlayerController {
     this.page = page;
   }
 
-  async grabPosition(): Promise<unknown> {
-    console.log('grabbing position');
-    let position = null;
-    position = (await getSprites(this.page)).data[0].position;
-    // console.log('position is: ', position)
+  async grabPosition(): Promise<CoordModel> {
+    const sprite = (await getSprites(this.page)).data[0];
+    const position: CoordModel = {
+      x: sprite.position._x,
+      y: sprite.position._y,
+    };
     return position;
   }
 

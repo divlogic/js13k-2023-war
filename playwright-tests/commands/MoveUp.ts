@@ -1,7 +1,7 @@
 import type fc from 'fast-check';
 import type { CoordModel } from '../models/models';
 import type PlayerController from '../reals/PlayerController';
-import type { Page } from '@playwright/test';
+import { expect, type Page } from '@playwright/test';
 
 export default class MoveUp
   implements fc.AsyncCommand<CoordModel, PlayerController, true>
@@ -21,11 +21,10 @@ export default class MoveUp
 
   async run(model: CoordModel, real: PlayerController): Promise<void> {
     this.count += 1;
-    console.log(this.count);
     await real.moveUp();
-    // console.log('model is: ', model)
     const newCoords = await real.grabPosition();
-    console.log('newCoords: ', newCoords);
+    expect(newCoords.y).toBeLessThan(model.y);
+    this.coords = newCoords;
   }
 
   toString(): string {

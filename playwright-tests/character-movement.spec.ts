@@ -26,5 +26,4 @@ test('Can move using wasd model based', async ({ page }) => {
   await page.pause();
 
   await asyncAssertions();
-  console.log('after asyncAssertions');
 });
