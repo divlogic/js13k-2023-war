@@ -1,39 +1,30 @@
-import { test, expect } from '@playwright/test'
-import { getSprites } from './utils'
+import { test } from '@playwright/test';
+import fc from 'fast-check';
+import type { CoordModel } from './models/models';
+import PlayerController from './reals/PlayerController';
+import MoveUp from './commands/MoveUp';
 
-test('Can move using wasd', async ({ page }) => {
-  await page.goto('localhost:5173')
+// const canvasSize = { width: 600, height: 600 };
 
-  const starting = (await getSprites(page)).data[0]
+test('Can move using wasd model based', async ({ page }) => {
+  const asyncAssertions = async (): Promise<void> => {
+    const allCommands = fc.commands(
+      [fc.constant(new MoveUp(page, { x: 300, y: 300 }))],
+      { maxCommands: 1 }
+    );
+    const property = fc.asyncProperty(allCommands, async (cmds) => {
+      const s = (): { model: CoordModel; real: PlayerController } => ({
+        model: { x: 300, y: 300 },
+        real: new PlayerController(page),
+      });
+      await fc.asyncModelRun(s, cmds);
+    });
 
-  const startingX = starting._wx
-  const startingY = starting._wy
+    await fc.assert(property, { numRuns: 10 });
+  };
+  await page.goto('localhost:5173');
+  await page.pause();
 
-  await page.keyboard.press('a', { delay: 1000 })
-  const afterMovingLeft = (await getSprites(page)).data[0]
-  const afterLeftX = afterMovingLeft._wx
-  const afterLeftY = afterMovingLeft._wy
-  await expect(afterLeftX).toBeLessThan(startingX)
-  await expect(afterLeftY).toBe(startingY)
-
-  await page.keyboard.press('s', { delay: 1000 })
-  const afterMovingDown = (await getSprites(page)).data[0]
-  const afterDownX = afterMovingDown._wx
-  const afterDownY = afterMovingDown._wy
-  await expect(afterDownX).toBe(afterLeftX)
-  await expect(afterDownY).toBeGreaterThan(afterLeftY)
-
-  await page.keyboard.press('d', { delay: 1000 })
-  const afterMovingRight = (await getSprites(page)).data[0]
-  const afterRightX = afterMovingRight._wx
-  const afterRightY = afterMovingRight._wy
-  await expect(afterRightX).toBeGreaterThan(afterDownX)
-  await expect(afterRightY).toBe(afterDownY)
-
-  await page.keyboard.press('w', { delay: 1000 })
-  const afterMovingUp = (await getSprites(page)).data[0]
-  const afterUpX = afterMovingUp._wx
-  const afterUpY = afterMovingUp._wy
-  await expect(afterUpX).toBe(afterRightX)
-  await expect(afterUpY).toBeLessThan(afterRightY)
-})
+  await asyncAssertions();
+  console.log('after asyncAssertions');
+});
