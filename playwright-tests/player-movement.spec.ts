@@ -37,7 +37,7 @@ test('Can move using wasd model based', async ({ page }) => {
 
     await fc.assert(property, { numRuns: 100, verbose: false });
   };
-  await page.goto('localhost:5173');
+  await page.goto('localhost:5173?scenario=player-movement');
 
   await asyncAssertions();
 });

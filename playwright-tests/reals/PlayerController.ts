@@ -1,5 +1,5 @@
 import type { Page } from '@playwright/test';
-import { getSprites } from '../utils';
+import { getObject, getSprites } from '../utils';
 import type { CoordModel } from '../models/models';
 
 export default class PlayerController {
@@ -9,7 +9,7 @@ export default class PlayerController {
   }
 
   async grabPosition(): Promise<CoordModel> {
-    const sprite = (await getSprites(this.page)).data[0];
+    const sprite = await getObject(this.page, 'player');
     const position: CoordModel = {
       x: sprite.position._x,
       y: sprite.position._y,
