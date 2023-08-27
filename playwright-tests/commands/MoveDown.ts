@@ -3,7 +3,7 @@ import type { CoordModel } from '../models/models';
 import type PlayerController from '../reals/PlayerController';
 import { expect, type Page } from '@playwright/test';
 
-export default class MoveUp
+export default class MoveDown
   implements fc.AsyncCommand<CoordModel, PlayerController, true>
 {
   coords?: CoordModel;
@@ -19,11 +19,12 @@ export default class MoveUp
     return true;
   }
 
-  async run(startingCoord: CoordModel, real: PlayerController): Promise<void> {
+  async run(model: CoordModel, real: PlayerController): Promise<void> {
     this.count += 1;
-    await real.moveUp();
+    await real.moveDown();
     const newCoords = await real.grabPosition();
-    expect(newCoords.y).toBeLessThan(startingCoord.y);
+    expect(newCoords.y).toBeGreaterThan(model.y);
+
     this.coords = newCoords;
   }
 

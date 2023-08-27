@@ -22,14 +22,14 @@ export default class PlayerController {
   }
 
   async moveDown(): Promise<void> {
-    await this.page.keyboard.press('s');
+    await this.page.keyboard.press('s', { delay: 100 });
   }
 
   async moveLeft(): Promise<void> {
-    await this.page.keyboard.press('a');
+    await this.page.keyboard.press('a', { delay: 100 });
   }
 
   async moveRight(): Promise<void> {
-    await this.page.keyboard.press('d');
+    await this.page.keyboard.press('d', { delay: 100 });
   }
 }
