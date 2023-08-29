@@ -27,11 +27,10 @@ export function playerMovementScenario(): void {
 
   sprites.push(player);
 
-  const enemy = new NPC({ x: 400, y: 200, moveSpeed: 1 });
+  const enemy = new NPC({ x: 0, y: 0, moveSpeed: 1 });
   sprites.push(enemy);
 
   const loop = GameLoop({
-    // fps: 1,
     update: function (this: GameLoop) {
       sprites.refresh();
       sprites.forEach((sprite) => {
