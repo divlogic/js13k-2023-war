@@ -6,7 +6,7 @@ import { expect, type Page } from '@playwright/test';
 export default class MoveDown
   implements fc.AsyncCommand<CoordModel, PlayerController, true>
 {
-  coords?: CoordModel;
+  coords: CoordModel;
   count = 0;
   page: Page;
 
@@ -16,14 +16,15 @@ export default class MoveDown
   }
 
   async check(): Promise<boolean> {
-    return true;
+    return this.coords.y < 600;
   }
 
   async run(model: CoordModel, real: PlayerController): Promise<void> {
     this.count += 1;
+    const startingCoord = await real.grabPosition();
     await real.moveDown();
     const newCoords = await real.grabPosition();
-    expect(newCoords.y).toBeGreaterThan(model.y);
+    expect(newCoords.y).toBeGreaterThan(startingCoord.y);
 
     this.coords = newCoords;
   }
