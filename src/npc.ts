@@ -1,29 +1,31 @@
-import { Character } from './character'
+import { Character } from './character';
 
 export class NPC extends Character {
   // target: null | Character = null
 
   addTarget(character: Character) {
-    this.target = character
+    this.target = character;
   }
 
   moveToCoords(x: number, y: number) {
-    const xDifference = this.x - x
-    const yDifference = this.y - y
+    const xDifference = this.x - x;
+    const yDifference = this.y - y;
     if (xDifference > 0) {
-      this.moveLeft()
+      this.moveLeft();
     } else if (xDifference < 0) {
-      this.moveRight()
+      this.moveRight();
     }
     if (yDifference > 0) {
-      this.moveUp()
+      this.moveUp();
     } else if (yDifference < 0) {
-      this.moveDown()
+      this.moveDown();
     }
   }
 
   update(dt?: number | undefined): void {
-    this.moveToCoords(100, 100)
-    super.update(dt)
+    if (this.target) {
+      this.moveToCoords(this.target.x, this.target.y);
+    }
+    super.update(dt);
   }
 }
