@@ -37,7 +37,7 @@ export function npcBehaviorScene() {
 
   sprites.push(player);
 
-  const enemy = new NPC({ x: 0, y: 0, moveSpeed: 1 });
+  const enemy = new NPC({ x: 0, y: 0, moveSpeed: 3 });
   window.enemy = enemy;
   sprites.push(enemy);
 
