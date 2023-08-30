@@ -79,7 +79,7 @@ test('NPC can acquire a target', async ({ page }) => {
       {
         message:
           'The enemy sprite should acquire a target when the player is near',
-        timeout: 5000,
+        timeout: 3000,
       }
     )
     .toBeDefined();
