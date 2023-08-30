@@ -19,7 +19,7 @@ declare global {
   }
 }
 
-export function npcBehaviorScene() {
+export function npcAcquireTargetScene() {
   const { canvas } = init();
 
   kontra.initKeys();
@@ -28,7 +28,7 @@ export function npcBehaviorScene() {
   const sprites = new SpriteState();
 
   const player = new Character({
-    x: 300,
+    x: 0,
     y: 300,
     player: true,
     team: 'blue',
@@ -37,11 +37,9 @@ export function npcBehaviorScene() {
 
   sprites.push(player);
 
-  const enemy = new NPC({ x: 0, y: 0, moveSpeed: 3 });
+  const enemy = new NPC({ x: 300, y: 300, moveSpeed: 3 });
   window.enemy = enemy;
   sprites.push(enemy);
-
-  enemy.addTarget(player);
 
   // This is taken from the example, might be a bug in their type file
   // @ts-expect-error This seems like the type file is off

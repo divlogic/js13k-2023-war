@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { getObject } from './utils';
+import PlayerController from './reals/PlayerController';
 
 const testObj = { foo: 'bar' };
 function testLog(str: string) {
@@ -48,4 +49,38 @@ test('NPC can move to a target', async ({ page }) => {
       }
     )
     .toEqual({ x: player.position._x, y: player.position._y });
+});
+
+test('NPC can acquire a target', async ({ page }) => {
+  await page.goto('localhost:5173?scenario=npc-acquire-target');
+  const player = await getObject(page, 'player');
+  const enemy = await getObject(page, 'enemy');
+
+  // Given that the enemy sprite doesn't have a target
+  expect(enemy.target).toBeUndefined();
+  // And that the player is not where the enemy is
+  expect(enemy.position._x).not.toBe(player.position._x);
+  expect(enemy.position._y).toBe(player.position._y);
+  const difference = enemy.position._x - player.position._x;
+  expect(difference).toBe(300);
+
+  // If the player gets close enough to the enemy,
+  // the enemy will target the player
+
+  const playerController = new PlayerController(page);
+  await playerController.moveRight(3000);
+
+  await expect
+    .poll(
+      async () => {
+        const enemy = await getObject(page, 'enemy');
+        return enemy.target;
+      },
+      {
+        message:
+          'The enemy sprite should acquire a target when the player is near',
+        timeout: 5000,
+      }
+    )
+    .toBeDefined();
 });

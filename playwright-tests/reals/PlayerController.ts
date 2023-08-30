@@ -29,7 +29,7 @@ export default class PlayerController {
     await this.page.keyboard.press('a', { delay: 100 });
   }
 
-  async moveRight(): Promise<void> {
-    await this.page.keyboard.press('d', { delay: 100 });
+  async moveRight(delay = 100): Promise<void> {
+    await this.page.keyboard.press('d', { delay });
   }
 }

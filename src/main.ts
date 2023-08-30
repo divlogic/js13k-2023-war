@@ -2,6 +2,7 @@ import { createScenario } from './scenario/scenario';
 import {
   npcBehaviorScene,
   playerMovementScenario,
+  npcAcquireTargetScene,
 } from '../playwright-tests/scenarios/index';
 
 if (import.meta.env.DEV) {
@@ -16,6 +17,8 @@ if (import.meta.env.DEV) {
     npcBehaviorScene();
   } else if (scenario === 'player-movement') {
     playerMovementScenario();
+  } else if (scenario === 'npc-acquire-target') {
+    npcAcquireTargetScene();
   }
 } else {
   createScenario();
