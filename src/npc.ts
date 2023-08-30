@@ -1,7 +1,8 @@
+import { Sprite } from 'kontra';
 import { Character } from './character';
 
 export class NPC extends Character {
-  // target: null | Character = null
+  target?: Character;
 
   addTarget(character: Character) {
     this.target = character;
