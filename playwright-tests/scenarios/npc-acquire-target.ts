@@ -9,7 +9,6 @@ import kontra, {
 import SpriteState from '../../src/SpriteState';
 import { Character } from '../../src/character';
 import { detectCollisions, handleBounds } from '../../src/collisionDetection';
-import { Weapon } from '../../src/weapon';
 import { NPC } from '../../src/npc';
 import firelance from '../../src/weapons/firelance';
 declare global {

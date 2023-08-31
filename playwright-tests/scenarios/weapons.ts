@@ -1,53 +1,53 @@
-import {
+import kontra, {
   Sprite,
   init,
   GameLoop,
   initPointer,
   onKey,
   Pool,
-  initKeys,
 } from 'kontra';
-import SpriteState from '../SpriteState';
-import { Character } from '../character';
-import { detectCollisions, handleBounds } from '../collisionDetection';
-import { Weapon } from '../weapon';
-import { NPC } from '../npc';
-import firelance from '../weapons/firelance';
+import SpriteState from '../../src/SpriteState';
+import { Character } from '../../src/character';
+import { detectCollisions, handleBounds } from '../../src/collisionDetection';
+import { NPC } from '../../src/npc';
+import firelance from '../../src/weapons/firelance';
+import fists from '../../src/weapons/fists';
 declare global {
   interface Window {
     sprites: any;
+    player: Character;
+    enemy: NPC;
   }
 }
 
-export function createScenario() {
+export function weapons() {
   const { canvas } = init();
 
-  initKeys();
+  kontra.initKeys();
   initPointer();
 
   const sprites = new SpriteState();
 
-  const ship = new Character({
-    x: 300,
+  const player = new Character({
+    x: 100,
     y: 300,
     player: true,
     team: 'blue',
   });
+  window.player = player;
 
-  sprites.push(ship);
+  sprites.push(player);
 
-  const enemy = new NPC({ x: 400, y: 200, moveSpeed: 1 });
+  const enemy = new NPC({ x: 300, y: 300, moveSpeed: 3 });
+  window.enemy = enemy;
   sprites.push(enemy);
 
   // This is taken from the example, might be a bug in their type file
-  // @ts-ignore
-  let pool = Pool({ create: Sprite });
+  // @ts-expect-error This seems like the type file is off
+  const pool = Pool({ create: Sprite });
 
-  const fireLance = firelance(pool, sprites);
-  // This handles the positioning and visual aspect,
-  // but it doesn't seem to address other relational aspects.
-  console.log(ship);
-  ship.addChild(fireLance);
+  const fireLance = fists(pool, sprites);
+  player.addChild(fireLance);
 
   const loop = GameLoop({
     // fps: 1,

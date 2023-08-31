@@ -3,6 +3,7 @@ import {
   npcBehaviorScene,
   playerMovementScenario,
   npcAcquireTargetScene,
+  weapons,
 } from '../playwright-tests/scenarios/index';
 
 if (import.meta.env.DEV) {
@@ -19,6 +20,8 @@ if (import.meta.env.DEV) {
     playerMovementScenario();
   } else if (scenario === 'npc-acquire-target') {
     npcAcquireTargetScene();
+  } else if (scenario === 'weapons') {
+    weapons();
   }
 } else {
   createScenario();
