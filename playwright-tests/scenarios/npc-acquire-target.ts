@@ -11,6 +11,7 @@ import { Character } from '../../src/character';
 import { detectCollisions, handleBounds } from '../../src/collisionDetection';
 import { Weapon } from '../../src/weapon';
 import { NPC } from '../../src/npc';
+import firelance from '../../src/weapons/firelance';
 declare global {
   interface Window {
     sprites: any;
@@ -45,24 +46,7 @@ export function npcAcquireTargetScene() {
   // @ts-expect-error This seems like the type file is off
   const pool = Pool({ create: Sprite });
 
-  const fireLance = new Weapon({
-    pool,
-    sprites,
-    projectileWeapon: true,
-    types: 'firelance',
-    x: 5,
-    y: 5,
-    render(this: Sprite) {
-      if (this.context != null) {
-        this.context.fillStyle = 'brown';
-        this.context.beginPath();
-        this.context.fillRect(0, 0, 15, 2);
-        this.context.fillStyle = 'green';
-        this.context.fillRect(15, 0, 8, 4);
-        this.context.stroke();
-      }
-    },
-  });
+  const fireLance = firelance(pool, sprites);
   player.addChild(fireLance);
 
   const loop = GameLoop({
