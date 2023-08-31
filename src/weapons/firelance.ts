@@ -7,7 +7,7 @@ export default function firelance(pool: Pool, sprites: SpriteState): Weapon {
     pool,
     sprites,
     projectileWeapon: true,
-    types: 'firelance',
+    type: 'firelance',
     x: 5,
     y: 5,
     render(this: Sprite) {
