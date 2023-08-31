@@ -7,7 +7,6 @@ import {
 } from 'kontra';
 
 export class Character extends SpriteClass {
-  type = 'character';
   team: string;
   moveSpeed: number;
   player: boolean;
@@ -20,6 +19,10 @@ export class Character extends SpriteClass {
     this.team = properties.team ?? 'red';
     if (this.radius === undefined || this.radius === null) {
       this.radius = properties.radius ?? 2;
+    }
+
+    if (this.type === undefined || this.type === null) {
+      this.type = properties.type ?? 'character';
     }
   }
 
