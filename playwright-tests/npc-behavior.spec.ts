@@ -9,7 +9,7 @@ function testLog(str: string) {
 }
 
 test('NPC can move to a target', async ({ page }) => {
-  await page.goto('localhost:5173?scenario=npc-behavior');
+  await page.goto('localhost:5173?scenario=npcBehavior');
   /**
    * The ways to test this, off the top of my head:
    * 1. Just keep checking the values over time and making sure
@@ -52,7 +52,7 @@ test('NPC can move to a target', async ({ page }) => {
 });
 
 test('NPC can acquire a target', async ({ page }) => {
-  await page.goto('localhost:5173?scenario=npc-acquire-target');
+  await page.goto('localhost:5173?scenario=npcAcquireTarget');
   const player = await getObject(page, 'player');
   const enemy = await getObject(page, 'enemy');
 
@@ -86,7 +86,7 @@ test('NPC can acquire a target', async ({ page }) => {
 });
 
 test('NPC attacks target', async ({ page }) => {
-  await page.goto('localhost:5173?scenario=npc-acquire-target');
+  await page.goto('localhost:5173?scenario=npcAcquireTarget');
   const player = await getObject(page, 'player');
   const enemy = await getObject(page, 'enemy');
 

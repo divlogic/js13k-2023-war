@@ -19,7 +19,7 @@ declare global {
   }
 }
 
-export function npcAcquireTargetScene() {
+export function npcAcquireTarget() {
   const { canvas } = init();
 
   kontra.initKeys();
@@ -45,8 +45,8 @@ export function npcAcquireTargetScene() {
   // @ts-expect-error This seems like the type file is off
   const pool = Pool({ create: Sprite });
 
-  const fireLance = firelance(pool, sprites);
-  player.addChild(fireLance);
+  const weapon = firelance(pool, sprites);
+  enemy.addChild(weapon);
 
   const loop = GameLoop({
     // fps: 1,

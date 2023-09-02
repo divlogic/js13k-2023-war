@@ -41,7 +41,7 @@ test('Can move using wasd model based', async ({ page }) => {
     });
     expect(tested.failed).toBe(false);
   };
-  await page.goto('localhost:5173?scenario=player-movement');
+  await page.goto('localhost:5173?scenario=playerMovement');
 
   await asyncAssertions();
 });

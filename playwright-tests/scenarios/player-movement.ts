@@ -9,7 +9,7 @@ declare global {
   }
 }
 
-export function playerMovementScenario(): void {
+export function playerMovement(): void {
   const { canvas } = init();
 
   initKeys();

@@ -10,7 +10,6 @@ import SpriteState from '../../src/SpriteState';
 import { Character } from '../../src/character';
 import { detectCollisions, handleBounds } from '../../src/collisionDetection';
 import { NPC } from '../../src/npc';
-import firelance from '../../src/weapons/firelance';
 import fists from '../../src/weapons/fists';
 declare global {
   interface Window {
@@ -46,8 +45,8 @@ export function weapons() {
   // @ts-expect-error This seems like the type file is off
   const pool = Pool({ create: Sprite });
 
-  const fireLance = fists(pool, sprites);
-  player.addChild(fireLance);
+  const weapon = fists(pool, sprites);
+  player.addChild(weapon);
 
   const loop = GameLoop({
     // fps: 1,
