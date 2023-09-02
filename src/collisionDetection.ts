@@ -21,6 +21,7 @@ export function detectCollisions(sprites: SpriteState) {
           }
         }
       } else if (
+        sprite.type === 'bullet' &&
         neighbor.type === 'character' &&
         neighbor.team !== sprite.team
       ) {
@@ -28,7 +29,6 @@ export function detectCollisions(sprites: SpriteState) {
         const dy = neighbor.y - sprite.y;
         const hyp = Math.hypot(dx, dy);
         if (hyp < sprite.radius + neighbor.radius) {
-          console.log(sprite.radius, neighbor.radius);
           neighbor.ttl = 0;
           sprite.ttl = 0;
         }
