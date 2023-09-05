@@ -35,7 +35,7 @@ export class ArmorPlate extends SpriteClass {
   }
 
   drawBezier(side: string): void {
-    let yModifier;
+    let yModifier = 0;
     let xModifier;
     if (side === 'right') {
       yModifier = 1;
@@ -58,12 +58,6 @@ export class ArmorPlate extends SpriteClass {
       const x2 = this.radius;
       const y2 = 2 * yModifier * this.radius;
 
-      context.moveTo(x, y);
-
-      context.beginPath();
-      context.arc(x, y, 1, 0, 2 * Math.PI);
-      context.strokeStyle = 'orange';
-      context.stroke();
       context.beginPath();
 
       context.strokeStyle = 'black';
@@ -91,12 +85,6 @@ export class ArmorPlate extends SpriteClass {
       context.closePath();
 
       context.stroke();
-
-      context.beginPath();
-      context.arc(x2, y2, 1, 0, 2 * Math.PI);
-      context.strokeStyle = 'green';
-      context.stroke();
-      context.beginPath();
     }
   }
 }
