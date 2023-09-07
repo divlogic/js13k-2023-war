@@ -6,7 +6,7 @@ export function addArmorPlates(character: Character): void {
   if (character.armor.length > 0) {
     radius = character.armor.slice(-1)[0].radius + 1;
   } else {
-    radius = character.radius;
+    radius = character.radius / 2;
   }
   const armorPlate = createArmorPlate(radius);
   character.addChild(armorPlate);
