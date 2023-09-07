@@ -6,10 +6,11 @@ import {
   keyPressed,
   type SpriteConstructor,
 } from 'kontra';
+import type { ArmorPlate } from './sprites/armorPlate';
 
-type ParentProps = ConstructorParameters<SpriteConstructor>['0'];
+export type SpriteProps = ConstructorParameters<SpriteConstructor>['0'];
 
-export type CharacterProperties = ParentProps & {
+type CharacterProperties = SpriteProps & {
   team?: string;
   moveSpeed?: number;
   player?: boolean;
@@ -21,6 +22,7 @@ export class Character extends SpriteClass {
   moveSpeed: number;
   player: boolean;
   radius: number;
+  armor: ArmorPlate[] = [];
 
   constructor(properties: CharacterProperties) {
     super(properties);
