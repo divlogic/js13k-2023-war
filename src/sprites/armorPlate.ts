@@ -1,30 +1,30 @@
 import { SpriteClass } from 'kontra';
-import { Character } from '../character';
+import type { Character, SpriteProps } from '../character';
 
-export function addArmorPlates(character: Character) {
-  if (!Object.hasOwn(character, 'armor')) {
-    console.log('does not have own');
-    character.armor = [];
-  }
+export function addArmorPlates(character: Character): void {
   let radius = 0;
-  if (character?.armor.length > 0) {
+  if (character.armor.length > 0) {
     radius = character.armor.slice(-1)[0].radius + 1;
-    console.log(character.armor.slice(-1));
   } else {
     radius = character.radius;
   }
-  console.log('radius is: ', radius);
   const armorPlate = createArmorPlate(radius);
   character.addChild(armorPlate);
   character.armor.push(armorPlate);
 }
-export function createArmorPlate(radius: number) {
+
+export function createArmorPlate(radius: number): ArmorPlate {
   return new ArmorPlate({ radius });
 }
+
+type ArmorProperties = SpriteProps & {
+  radius: number;
+};
+
 export class ArmorPlate extends SpriteClass {
   radius: number;
 
-  constructor(properties: any = {}) {
+  constructor(properties: ArmorProperties) {
     super(properties);
     this.radius = properties.radius ?? 2;
   }
@@ -36,7 +36,7 @@ export class ArmorPlate extends SpriteClass {
 
   drawBezier(side: string): void {
     let yModifier = 0;
-    let xModifier;
+    // let xModifier;
     if (side === 'right') {
       yModifier = 1;
     } else if (side === 'left') {
