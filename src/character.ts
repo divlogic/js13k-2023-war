@@ -7,6 +7,7 @@ import {
   type SpriteConstructor,
 } from 'kontra';
 import type { ArmorPlate } from './sprites/armorPlate';
+import { Helmet } from './sprites/helmet';
 
 export type SpriteProps = ConstructorParameters<SpriteConstructor>['0'];
 
@@ -15,6 +16,7 @@ type CharacterProperties = SpriteProps & {
   moveSpeed?: number;
   player?: boolean;
   radius?: number;
+  helmet?: Helmet;
 };
 
 export class Character extends SpriteClass {
@@ -23,6 +25,7 @@ export class Character extends SpriteClass {
   player: boolean;
   radius: number;
   armor: ArmorPlate[] = [];
+  helmet?: Helmet;
 
   constructor(properties: CharacterProperties) {
     super(properties);
@@ -34,6 +37,9 @@ export class Character extends SpriteClass {
     if (this.type === undefined || this.type === null) {
       this.type = properties.type ?? 'character';
     }
+    this.helmet =
+      properties.helmet ?? new Helmet({ team: this.team, radius: this.radius });
+    this.addChild(this.helmet);
   }
 
   draw(this: Sprite): void {
@@ -41,11 +47,11 @@ export class Character extends SpriteClass {
       // Color can be changed later
       this.context.strokeStyle = this.team;
       this.context.beginPath();
-      this.context.moveTo(-3, -5);
-      this.context.lineTo(12, 0);
-      this.context.lineTo(-3, 5);
-      this.context.closePath();
+      this.context.moveTo(0, 0);
+      this.context.arc(0, 0, this.radius, 0, 2 * Math.PI);
       this.context.stroke();
+      this.context.fillStyle = this.team;
+      this.context.fill();
     }
   }
 
