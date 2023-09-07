@@ -8,6 +8,7 @@ import {
 } from 'kontra';
 import type { ArmorPlate } from './sprites/armorPlate';
 import { Helmet } from './sprites/helmet';
+import type { Weapon } from './weapon';
 
 export type SpriteProps = ConstructorParameters<SpriteConstructor>['0'];
 
@@ -26,13 +27,14 @@ export class Character extends SpriteClass {
   radius: number;
   armor: ArmorPlate[] = [];
   helmet?: Helmet;
+  weapon?: Weapon;
 
   constructor(properties: CharacterProperties) {
     super(properties);
     this.moveSpeed = properties.moveSpeed ?? 5;
     this.player = properties.player ?? false;
     this.team = properties.team ?? 'red';
-    this.radius = properties.radius ?? 2;
+    this.radius = properties.radius ?? 10;
 
     if (this.type === undefined || this.type === null) {
       this.type = properties.type ?? 'character';
@@ -110,5 +112,10 @@ export class Character extends SpriteClass {
 
   moveDown(): void {
     this.y = this.y + this.moveSpeed;
+  }
+
+  addWeapon(weapon: Weapon): void {
+    this.addChild(weapon);
+    this.weapon = weapon;
   }
 }
