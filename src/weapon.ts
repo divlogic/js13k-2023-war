@@ -7,11 +7,11 @@ export class Weapon extends SpriteClass {
   sprites: SpriteState;
 
   constructor(properties: any) {
-    console.log('Constructing weapon');
     super(properties);
     this.pool = properties.pool;
     this.sprites = properties.sprites;
     this.projectileWeapon = properties.projectileWeapon;
+    this.radius = properties?.radius ?? 2;
   }
 
   attack(this: Weapon) {
@@ -21,7 +21,7 @@ export class Weapon extends SpriteClass {
       const bullet = this.pool.get({
         team: this.parent?.team,
         type: 'bullet',
-        color: 'white',
+        color: 'black',
         x: this.world.x + cos * 12,
         y: this.world.y + sin * 12,
         dx: this.dx + cos * 5,
