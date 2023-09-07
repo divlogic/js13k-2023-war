@@ -4,7 +4,16 @@ import {
   angleToTarget,
   getPointer,
   keyPressed,
+  type SpriteConstructor,
 } from 'kontra';
+
+interface SpriteProperties extends SpriteConstructor {
+  moveSpeed?: number;
+  player: boolean;
+  team: string;
+  radius?: number;
+  type?: string;
+}
 
 export class Character extends SpriteClass {
   team: string;
@@ -12,21 +21,19 @@ export class Character extends SpriteClass {
   player: boolean;
   radius: number;
 
-  constructor(properties: any = {}) {
+  constructor(properties: SpriteProperties) {
     super(properties);
     this.moveSpeed = properties.moveSpeed ?? 5;
     this.player = properties.player ?? false;
     this.team = properties.team ?? 'red';
-    if (this.radius === undefined || this.radius === null) {
-      this.radius = properties.radius ?? 2;
-    }
+    this.radius = properties.radius ?? 2;
 
     if (this.type === undefined || this.type === null) {
       this.type = properties.type ?? 'character';
     }
   }
 
-  draw(this: Sprite) {
+  draw(this: Sprite): void {
     if (this.context != null) {
       // Color can be changed later
       this.context.strokeStyle = this.team;
