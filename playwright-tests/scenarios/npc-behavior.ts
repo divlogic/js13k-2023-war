@@ -31,12 +31,13 @@ export function npcBehavior(): void {
     y: 300,
     player: true,
     team: 'blue',
+    radius: 10,
   });
   window.player = player;
 
   sprites.push(player);
 
-  const enemy = new NPC({ x: 0, y: 0, moveSpeed: 3 });
+  const enemy = new NPC({ x: 0, y: 0, moveSpeed: 3, radius: 10 });
   window.enemy = enemy;
   sprites.push(enemy);
 
@@ -47,7 +48,8 @@ export function npcBehavior(): void {
   const pool = Pool({ create: Sprite });
 
   const weapon = firelance(pool, sprites);
-  player.addChild(weapon);
+  player.addWeapon(weapon);
+  enemy.addWeapon(firelance(pool, sprites));
 
   const loop = GameLoop({
     // fps: 1,

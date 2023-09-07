@@ -46,7 +46,7 @@ export function npcAcquireTarget() {
   const pool = Pool({ create: Sprite });
 
   const weapon = firelance(pool, sprites);
-  enemy.addChild(weapon);
+  enemy.addWeapon(weapon);
 
   const loop = GameLoop({
     // fps: 1,
