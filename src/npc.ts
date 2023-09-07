@@ -4,11 +4,11 @@ import { Character } from './character';
 export class NPC extends Character {
   target?: Character;
 
-  addTarget(character: Character) {
+  addTarget(character: Character): void {
     this.target = character;
   }
 
-  moveToCoords(x: number, y: number) {
+  moveToCoords(x: number, y: number): void {
     const xDifference = this.x - x;
     const yDifference = this.y - y;
     if (xDifference > 0) {
