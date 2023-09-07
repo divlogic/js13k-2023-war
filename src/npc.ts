@@ -1,4 +1,4 @@
-import { Sprite, angleToTarget } from 'kontra';
+import { angleToTarget } from 'kontra';
 import { Character } from './character';
 
 export class NPC extends Character {
@@ -24,7 +24,7 @@ export class NPC extends Character {
   }
 
   update(dt?: number | undefined): void {
-    if (this.target) {
+    if (this.target != null) {
       const angle = angleToTarget(this, this.target);
       this.rotation = angle;
       this.moveToCoords(this.target.x, this.target.y);
@@ -38,7 +38,7 @@ export class NPC extends Character {
     super.update(dt);
   }
 
-  attack() {
+  attack(): void {
     this.children[0].attack();
   }
 }
