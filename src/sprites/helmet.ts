@@ -76,6 +76,11 @@ export class Helmet extends SpriteClass {
       context.stroke();
       context.fillStyle = 'grey';
       context.fill();
+
+      context.beginPath();
+      context.strokeStyle = 'black';
+      context.arc(0, 0, this.radius / 3, 0, 2 * Math.PI);
+      context.stroke();
     }
   }
 
