@@ -28,9 +28,7 @@ export class NPC extends Character {
       const angle = angleToTarget(this, this.target);
       this.rotation = angle;
       this.moveToCoords(this.target.x, this.target.y);
-      if (this.children.length > 0) {
-        this.attack();
-      }
+      this.attack();
       // TODO: something to detect range
       // TODO: something to attack when in range
       // Maybe slow movespeed down a bit while attacking?
@@ -39,6 +37,8 @@ export class NPC extends Character {
   }
 
   attack(): void {
-    this.children[0].attack();
+    if (this.weapon != null) {
+      this.weapon.attack();
+    }
   }
 }
