@@ -7,13 +7,14 @@ import {
   type SpriteConstructor,
 } from 'kontra';
 
-interface SpriteProperties extends SpriteConstructor {
+type ParentProps = ConstructorParameters<SpriteConstructor>['0'];
+
+export type CharacterProperties = ParentProps & {
+  team?: string;
   moveSpeed?: number;
-  player: boolean;
-  team: string;
+  player?: boolean;
   radius?: number;
-  type?: string;
-}
+};
 
 export class Character extends SpriteClass {
   team: string;
@@ -21,7 +22,7 @@ export class Character extends SpriteClass {
   player: boolean;
   radius: number;
 
-  constructor(properties: SpriteProperties) {
+  constructor(properties: CharacterProperties) {
     super(properties);
     this.moveSpeed = properties.moveSpeed ?? 5;
     this.player = properties.player ?? false;
@@ -73,7 +74,7 @@ export class Character extends SpriteClass {
     }
   }
 
-  handleKeys() {
+  handleKeys(): void {
     if (keyPressed(['arrowleft', 'a'])) {
       this.moveLeft();
     } else if (keyPressed(['arrowright', 'd'])) {
@@ -87,19 +88,19 @@ export class Character extends SpriteClass {
     }
   }
 
-  moveLeft() {
+  moveLeft(): void {
     this.x = this.x - this.moveSpeed;
   }
 
-  moveRight() {
+  moveRight(): void {
     this.x = this.x + this.moveSpeed;
   }
 
-  moveUp() {
+  moveUp(): void {
     this.y = this.y - this.moveSpeed;
   }
 
-  moveDown() {
+  moveDown(): void {
     this.y = this.y + this.moveSpeed;
   }
 }
