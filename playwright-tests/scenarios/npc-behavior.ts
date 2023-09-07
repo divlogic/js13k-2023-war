@@ -13,13 +13,12 @@ import { NPC } from '../../src/npc';
 import firelance from '../../src/weapons/firelance';
 declare global {
   interface Window {
-    sprites: any;
     player: Character;
     enemy: NPC;
   }
 }
 
-export function npcBehavior() {
+export function npcBehavior(): void {
   const { canvas } = init();
 
   kontra.initKeys();
