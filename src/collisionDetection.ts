@@ -37,7 +37,11 @@ export function detectCollisions(sprites: SpriteState) {
   });
 }
 
-export function handleBounds(sprite: Sprite, canvas: HTMLCanvasElement) {
+export function handleBounds(
+  sprite: Sprite,
+  canvas: HTMLCanvasElement,
+  dt: number
+): void {
   // sprite is beyond the left edge
   sprite.position.clamp(
     0,
@@ -59,5 +63,5 @@ export function handleBounds(sprite: Sprite, canvas: HTMLCanvasElement) {
     // sprite is beyond the bottom edge
     sprite.y = -radius;
   }
-  sprite.update();
+  sprite.update(dt);
 }
