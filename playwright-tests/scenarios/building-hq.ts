@@ -1,4 +1,4 @@
-import { Sprite, init, GameLoop, initPointer, onKey, initKeys } from 'kontra';
+import { init, GameLoop, initPointer, onKey, initKeys } from 'kontra';
 import SpriteState from '../../src/SpriteState';
 import { detectCollisions, handleBounds } from '../../src/collisionDetection';
 import { Building } from '../../src/sprites/building';
@@ -15,15 +15,21 @@ export function buildingHq(): void {
   initPointer();
   const sprites = new SpriteState();
   window.sprites = sprites;
-  const hq = new Building({ team: 'green', x: 200, y: 200 });
+  const hq = new Building({
+    team: 'green',
+    x: 200,
+    y: 200,
+    type: 'spawner',
+    spriteState: sprites,
+  });
   window.hq = hq;
   sprites.push(hq);
 
   const loop = GameLoop({
-    update: function (this: GameLoop) {
+    update: function (this: GameLoop, dt: number) {
       sprites.refresh();
       sprites.forEach((sprite) => {
-        handleBounds(sprite, canvas);
+        handleBounds(sprite, canvas, dt);
       });
 
       detectCollisions(sprites);
