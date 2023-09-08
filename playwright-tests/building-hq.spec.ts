@@ -2,6 +2,17 @@ import { expect, test } from '@playwright/test';
 import { getObject } from './utils';
 import type SpriteState from '../src/SpriteState';
 import type { Building } from '../src/sprites/building';
+import type { Sprite, Vector } from 'kontra';
+
+type Private<Type> = {
+  [Property in keyof Type as Property extends string
+    ? `_${Property}`
+    : Property]: Type[Property];
+};
+type TestSprite = Sprite &
+  Private<Sprite> & {
+    position: Private<Vector>;
+  };
 
 test.describe('Given that an HQ building exists', async () => {
   test('If it has a team, it should spawn units', async ({ page }) => {
@@ -77,9 +88,11 @@ test.describe('Given that an HQ building exists', async () => {
       )
       .toBeGreaterThan(3);
 
-    const endSprites = await getObject(page, 'sprites');
-    let prevCoordinates = {};
-    endSprites.data.forEach((element, index) => {
+    const endSprites = (await getObject(page, 'sprites')) as {
+      data: TestSprite[];
+    } & SpriteState;
+    let prevCoordinates: { _x?: number; _y?: number } = {};
+    endSprites.data.forEach((element: TestSprite, index: number) => {
       if (index === 0) {
         prevCoordinates = element.position;
         return;
