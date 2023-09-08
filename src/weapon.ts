@@ -32,9 +32,12 @@ export class Weapon extends SpriteClass {
         height: 2,
       });
 
-      // I think calling this line will be highly dependent on
-      // what kind of weapon it is, like sword vs projectile
-      //   this.addChild(bullet)
+      /**
+       * TODO: This needs to be refactored
+       * so that bullet sprites aren't added to the main sprite object
+       * The docs specifically say you should avoid updating pooled objects
+       * from outside their pool object.
+       **/
       this.sprites.push(bullet as Sprite);
     } else {
       const cos = Math.cos(this.world.rotation);
