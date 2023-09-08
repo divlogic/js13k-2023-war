@@ -1,14 +1,6 @@
-import {
-  type Sprite,
-  SpriteClass,
-  angleToTarget,
-  getPointer,
-  keyPressed,
-  type SpriteConstructor,
-} from 'kontra';
-import type { ArmorPlate } from './armorPlate';
-import { Helmet } from './helmet';
-import type { Weapon } from '../weapon';
+import { type Sprite, SpriteClass, type SpriteConstructor } from 'kontra';
+import type SpriteState from '../SpriteState';
+import { NPC } from '../npc';
 
 export type SpriteProps = ConstructorParameters<SpriteConstructor>['0'];
 
@@ -17,14 +9,14 @@ type BuildingProperties = SpriteProps & {
   moveSpeed?: number;
   player?: boolean;
   radius?: number;
-  helmet?: Helmet;
+  spriteState?: SpriteState;
 };
 
 export class Building extends SpriteClass {
   team: string;
   radius: number;
-  armor: ArmorPlate[] = [];
-  weapon?: Weapon;
+  spriteState?: SpriteState;
+  updateCount = 0;
 
   constructor(properties: BuildingProperties) {
     super(properties);
@@ -34,6 +26,7 @@ export class Building extends SpriteClass {
     if (this.type === undefined || this.type === null) {
       this.type = properties.type ?? 'building';
     }
+    this.spriteState = properties.spriteState;
   }
 
   draw(this: Sprite): void {
@@ -49,7 +42,21 @@ export class Building extends SpriteClass {
     }
   }
 
-  update(dt?: number | undefined): void {
+  update(dt: number): void {
     super.update(dt);
+
+    if (this.type === 'spawner') {
+      this.updateCount += dt;
+      if (this.updateCount > 1) {
+        this.updateCount = 0;
+        const npc = new NPC({
+          team: this.team,
+          x: this.x + 20,
+          y: this.y + 20,
+          radius: 10,
+        });
+        this.spriteState?.push(npc);
+      }
+    }
   }
 }
