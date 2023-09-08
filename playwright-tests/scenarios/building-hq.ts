@@ -4,8 +4,8 @@ import { detectCollisions, handleBounds } from '../../src/collisionDetection';
 import { Building } from '../../src/sprites/building';
 declare global {
   interface Window {
-    sprites: any;
-    hq: any;
+    sprites: SpriteState;
+    hq: Building;
   }
 }
 
