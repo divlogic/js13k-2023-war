@@ -4,6 +4,7 @@ import { playerMovement } from './player-movement';
 import { npcAcquireTarget } from './npc-acquire-target';
 import { weapons } from './weapons';
 import { playerAttacking } from './player-attacking';
+import { buildingHq } from './building-hq';
 
 export const playwrightScenes: Record<string, () => void> = {
   npcBehavior,
@@ -11,4 +12,5 @@ export const playwrightScenes: Record<string, () => void> = {
   npcAcquireTarget,
   weapons,
   playerAttacking,
+  buildingHq,
 };
