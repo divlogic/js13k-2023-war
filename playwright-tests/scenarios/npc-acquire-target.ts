@@ -19,7 +19,7 @@ declare global {
   }
 }
 
-export function npcAcquireTarget() {
+export function npcAcquireTarget(): void {
   const { canvas } = init();
 
   kontra.initKeys();
@@ -28,7 +28,7 @@ export function npcAcquireTarget() {
   const sprites = new SpriteState();
 
   const player = new Character({
-    x: 0,
+    x: 1,
     y: 300,
     player: true,
     team: 'blue',
@@ -41,30 +41,24 @@ export function npcAcquireTarget() {
   window.enemy = enemy;
   sprites.push(enemy);
 
-  // This is taken from the example, might be a bug in their type file
-  // @ts-expect-error This seems like the type file is off
-  const pool = Pool({ create: Sprite });
-
-  const weapon = firelance(pool, sprites);
+  const weapon = firelance(sprites);
   enemy.addWeapon(weapon);
 
   const loop = GameLoop({
-    // fps: 1,
+    fps: 30,
     update: function (this: GameLoop, dt) {
       sprites.refresh();
       sprites.forEach((sprite) => {
         handleBounds(sprite, canvas, dt);
       });
 
-      // collision detection
       detectCollisions(sprites);
 
-      sprites.scene.update(dt);
-      pool.update(dt);
       sprites.clearDead();
+      sprites.update(dt * 100);
     },
     render: function () {
-      sprites.scene.render();
+      sprites.render();
     },
   });
 
