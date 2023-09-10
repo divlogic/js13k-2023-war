@@ -19,7 +19,7 @@ declare global {
   }
 }
 
-export function playerAttacking(): void {
+export function playerAttacks(): void {
   const { canvas } = init();
   // This is taken from the example, might be a bug in their type file
   // @ts-expect-error This seems like the type file is off
@@ -30,26 +30,25 @@ export function playerAttacking(): void {
   const sprites = new SpriteState();
   const player = new Character({
     type: 'player',
-    x: 0,
-    y: 300,
+    x: 400,
+    y: 400,
     player: true,
     team: 'blue',
   });
   window.player = player;
   sprites.push(player);
 
-  const enemy = new NPC({ x: 300, y: 300, moveSpeed: 3 });
+  const enemy = new NPC({ x: 100, y: 100, moveSpeed: 3, team: 'purple' });
   window.enemy = enemy;
-  const enemyWeapon = firelance(pool, sprites);
+  const enemyWeapon = firelance(sprites);
   sprites.push(enemy);
-  enemy.addChild(enemyWeapon);
+  enemy.addWeapon(enemyWeapon);
 
-  const weapon = firelance(pool, sprites);
-  player.addChild(weapon);
+  const weapon = firelance(sprites);
+  player.addWeapon(weapon);
 
   const loop = GameLoop({
-    // fps: 1,
-    update: function (this: GameLoop) {
+    update: function (this: GameLoop, dt: number) {
       sprites.refresh();
       sprites.forEach((sprite) => {
         handleBounds(sprite, canvas);
@@ -58,12 +57,11 @@ export function playerAttacking(): void {
       // collision detection
       detectCollisions(sprites);
 
-      sprites.filter((sprite) => sprite.isAlive());
+      sprites.update(dt);
+      sprites.clearDead();
     },
     render: function () {
-      sprites.forEach((sprite) => {
-        sprite.render();
-      });
+      sprites.render();
     },
   });
 
