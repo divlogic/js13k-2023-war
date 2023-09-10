@@ -63,5 +63,4 @@ export function handleBounds(
     // sprite is beyond the bottom edge
     sprite.y = -radius;
   }
-  sprite.update(dt);
 }

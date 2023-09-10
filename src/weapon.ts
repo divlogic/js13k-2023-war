@@ -80,7 +80,7 @@ export class Weapon extends SpriteClass {
 
   update(dt?: number | undefined): void {
     super.update(dt);
-    if (this?.parent?.type === 'player' && pointerPressed('left')) {
+    if (this?.parent?.player && pointerPressed('left')) {
       this.attack();
     }
   }

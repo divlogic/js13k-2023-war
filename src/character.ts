@@ -12,7 +12,7 @@ import type { Weapon } from './weapon';
 
 export type SpriteProps = ConstructorParameters<SpriteConstructor>['0'];
 
-type CharacterProperties = SpriteProps & {
+export type CharacterProperties = SpriteProps & {
   team?: string;
   moveSpeed?: number;
   player?: boolean;

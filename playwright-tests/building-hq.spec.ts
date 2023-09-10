@@ -5,9 +5,7 @@ import type { Building } from '../src/sprites/building';
 import type { Sprite, Vector } from 'kontra';
 
 type Private<Type> = {
-  [Property in keyof Type as Property extends string
-    ? `_${Property}`
-    : Property]: Type[Property];
+  [Property in keyof Type as `_${Property}`]: Type[Property];
 };
 type TestSprite = Sprite &
   Private<Sprite> & {
@@ -21,7 +19,7 @@ test.describe('Given that an HQ building exists', async () => {
     });
 
     const startSprites = (await getObject(page, 'sprites')) as SpriteState;
-    expect(startSprites.data.length).toBe(1);
+    expect(startSprites.scene._o.length).toBe(1);
 
     await expect
       .poll(async () => {
@@ -39,8 +37,11 @@ test.describe('Given that an HQ building exists', async () => {
     await expect
       .poll(
         async () => {
-          const sprites = (await getObject(page, 'sprites')) as SpriteState;
-          return sprites.data.length;
+          const length = await page.evaluate(
+            'window.sprites.scene.objects.length'
+          );
+
+          return length;
         },
         {
           message: 'There should be more sprites after some time',
@@ -49,8 +50,8 @@ test.describe('Given that an HQ building exists', async () => {
       )
       .toBeGreaterThan(1);
 
-    const endSprites = (await getObject(page, 'sprites')) as SpriteState;
-    endSprites.data.forEach((element) => {
+    const endSprites = await page.evaluate('window.sprites.scene.objects');
+    endSprites.forEach((element) => {
       // Sprites should be the same team as their HQ's
       expect(element.team).toBe('green');
     });
