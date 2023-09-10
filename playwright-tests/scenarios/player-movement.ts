@@ -31,7 +31,7 @@ export function playerMovement(): void {
   sprites.push(enemy);
 
   const loop = GameLoop({
-    update: function (this: GameLoop) {
+    update: function (this: GameLoop, dt: number) {
       sprites.refresh();
       sprites.forEach((sprite) => {
         handleBounds(sprite, canvas);
@@ -39,12 +39,11 @@ export function playerMovement(): void {
       // collision detection
       detectCollisions(sprites);
 
-      sprites.filter((sprite) => sprite.isAlive());
+      sprites.update(dt);
+      sprites.clearDead();
     },
     render: function () {
-      sprites.forEach((sprite) => {
-        sprite.render();
-      });
+      sprites.render();
     },
   });
 
