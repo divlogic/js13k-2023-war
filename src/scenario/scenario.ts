@@ -1,25 +1,18 @@
-import {
-  Sprite,
-  init,
-  GameLoop,
-  initPointer,
-  onKey,
-  Pool,
-  initKeys,
-} from 'kontra';
+import { Sprite, init, GameLoop, initPointer, onKey, initKeys } from 'kontra';
 import SpriteState from '../SpriteState';
 import { Character } from '../character';
 import { detectCollisions, handleBounds } from '../collisionDetection';
-import { Weapon } from '../weapon';
 import { NPC } from '../npc';
 import firelance from '../weapons/firelance';
+import { addArmorPlates } from '../sprites/armorPlate';
 declare global {
   interface Window {
-    sprites: any;
+    sprites: SpriteState;
+    enemy: NPC;
   }
 }
 
-export function createScenario() {
+export function createScenario(): void {
   const { canvas } = init();
 
   initKeys();
@@ -28,44 +21,53 @@ export function createScenario() {
   const sprites = new SpriteState();
 
   const ship = new Character({
+    type: 'player',
     x: 300,
     y: 300,
     player: true,
     team: 'blue',
+    radius: 10,
   });
+  window.ship = ship;
 
   sprites.push(ship);
 
-  const enemy = new NPC({ x: 400, y: 200, moveSpeed: 1 });
+  addArmorPlates(ship);
+  addArmorPlates(ship);
+  addArmorPlates(ship);
+
+  const enemy = new NPC({
+    x: 400,
+    y: 200,
+    moveSpeed: 1,
+    radius: 10,
+    team: 'red',
+  });
+  window.enemy = enemy;
   sprites.push(enemy);
 
-  // This is taken from the example, might be a bug in their type file
-  // @ts-ignore
-  let pool = Pool({ create: Sprite });
+  enemy.addWeapon(firelance(sprites));
 
-  const fireLance = firelance(pool, sprites);
+  const playerWeapon = firelance(sprites);
   // This handles the positioning and visual aspect,
   // but it doesn't seem to address other relational aspects.
-  console.log(ship);
-  ship.addChild(fireLance);
+  ship.addChild(playerWeapon);
 
   const loop = GameLoop({
-    // fps: 1,
-    update: function (this: GameLoop) {
+    update: function (this: GameLoop, dt) {
       sprites.refresh();
       sprites.forEach((sprite) => {
-        handleBounds(sprite, canvas);
+        handleBounds(sprite, canvas, dt);
       });
 
       // collision detection
       detectCollisions(sprites);
 
-      sprites.filter((sprite) => sprite.isAlive());
+      sprites.update(dt);
+      sprites.clearDead();
     },
     render: function () {
-      sprites.forEach((sprite) => {
-        sprite.render();
-      });
+      sprites.render();
     },
   });
 
