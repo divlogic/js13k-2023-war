@@ -34,12 +34,11 @@ export function buildingHq(): void {
 
       detectCollisions(sprites);
 
-      sprites.filter((sprite) => sprite.isAlive());
+      sprites.clearDead();
+      sprites.scene.update(dt);
     },
     render: function () {
-      sprites.forEach((sprite) => {
-        sprite.render();
-      });
+      sprites.scene.render();
     },
   });
   onKey('esc', () => {
