@@ -63,6 +63,7 @@ export function npcBehavior(): void {
       // collision detection
       detectCollisions(sprites);
 
+      pool.update(dt);
       sprites.scene.update(dt);
       sprites.clearDead();
     },

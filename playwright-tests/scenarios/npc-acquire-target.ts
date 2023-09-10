@@ -50,21 +50,21 @@ export function npcAcquireTarget() {
 
   const loop = GameLoop({
     // fps: 1,
-    update: function (this: GameLoop) {
+    update: function (this: GameLoop, dt) {
       sprites.refresh();
       sprites.forEach((sprite) => {
-        handleBounds(sprite, canvas);
+        handleBounds(sprite, canvas, dt);
       });
 
       // collision detection
       detectCollisions(sprites);
 
-      sprites.filter((sprite) => sprite.isAlive());
+      sprites.scene.update(dt);
+      pool.update(dt);
+      sprites.clearDead();
     },
     render: function () {
-      sprites.forEach((sprite) => {
-        sprite.render();
-      });
+      sprites.scene.render();
     },
   });
 
