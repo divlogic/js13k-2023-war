@@ -38,7 +38,7 @@ export function playerAttacks(): void {
   window.player = player;
   sprites.push(player);
 
-  const enemy = new NPC({ x: 100, y: 100, moveSpeed: 3, team: 'purple' });
+  const enemy = new NPC({ x: 300, y: 300, moveSpeed: 3, team: 'purple' });
   window.enemy = enemy;
   const enemyWeapon = firelance(sprites);
   sprites.push(enemy);
