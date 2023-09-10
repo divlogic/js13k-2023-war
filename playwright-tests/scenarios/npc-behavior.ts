@@ -43,32 +43,25 @@ export function npcBehavior(): void {
 
   enemy.addTarget(player);
 
-  // This is taken from the example, might be a bug in their type file
-  // @ts-expect-error This seems like the type file is off
-  const pool = Pool({ create: Sprite });
-
-  const weapon = firelance(pool, sprites);
+  const weapon = firelance(sprites);
   player.addWeapon(weapon);
 
-  enemy.addWeapon(firelance(pool, sprites));
+  enemy.addWeapon(firelance(sprites));
 
   const loop = GameLoop({
-    // fps: 1,
     update: function (this: GameLoop, dt: number) {
       sprites.refresh();
       sprites.forEach((sprite) => {
         handleBounds(sprite, canvas, dt);
       });
 
-      // collision detection
       detectCollisions(sprites);
 
-      pool.update(dt);
-      sprites.scene.update(dt);
+      sprites.update(dt);
       sprites.clearDead();
     },
     render: function () {
-      sprites.scene.render();
+      sprites.render();
     },
   });
 
