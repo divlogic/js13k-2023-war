@@ -1,10 +1,10 @@
-import { Sprite } from 'kontra';
-import SpriteState from './SpriteState';
-// import { createAsteroid } from './main'
+import type { Sprite } from 'kontra';
+import type SpriteState from './SpriteState';
 
-export function detectCollisions(sprites: SpriteState) {
+export function detectCollisions(sprites: SpriteState): void {
   sprites.forEach((sprite) => {
     const nearBySprites = sprites.quadTree.get(sprite) as Sprite[];
+
     nearBySprites.forEach((neighbor) => {
       if (
         sprite.type === 'character' &&
@@ -15,14 +15,14 @@ export function detectCollisions(sprites: SpriteState) {
         const dy = neighbor.y - sprite.y;
         const hyp = Math.hypot(dx, dy);
         if (hyp < 100) {
-          if (neighbor.addTarget) {
+          if (neighbor?.addTarget !== null) {
             if (neighbor.target === undefined || neighbor.target === null)
               neighbor.addTarget(sprite);
           }
         }
       } else if (
-        sprite.type === 'bullet' &&
-        neighbor.type === 'character' &&
+        sprite.type === 'character' &&
+        neighbor.type === 'bullet' &&
         neighbor.team !== sprite.team
       ) {
         const dx = neighbor.x - sprite.x;
