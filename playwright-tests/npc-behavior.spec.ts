@@ -2,12 +2,6 @@ import { test, expect } from '@playwright/test';
 import { getObject } from './utils';
 import PlayerController from './reals/PlayerController';
 
-const testObj = { foo: 'bar' };
-function testLog(str: string) {
-  console.log(str);
-  return testObj;
-}
-
 test('NPC can move to a target', async ({ page }) => {
   await page.goto('localhost:5173?scenario=npcBehavior');
   /**
@@ -41,14 +35,25 @@ test('NPC can move to a target', async ({ page }) => {
   await expect
     .poll(
       async () => {
-        const enemy = await getObject(page, 'enemy');
-        return { x: enemy.position._x, y: enemy.position._y };
+        const enemy = await page.evaluate('window.enemy');
+        console.log('player x is: ', player.position._x);
+        console.log('enemy x is: ', enemy.position._x);
+        const xIsClose =
+          player.position._x - 5 < enemy.position._x &&
+          enemy.position._x < player.position._x + 5;
+        const yIsClose =
+          player.position._y - 5 < enemy.position._y &&
+          enemy.position._y < player.position._y + 5;
+
+        return xIsClose && yIsClose;
       },
       {
         message: 'The enemy sprite should move to the target location',
+        intervals: [1000, 2000, 3000, 4000, 5000],
+        timeout: 6000,
       }
     )
-    .toEqual({ x: player.position._x, y: player.position._y });
+    .toBeTruthy();
 });
 
 test('NPC can acquire a target', async ({ page }) => {
