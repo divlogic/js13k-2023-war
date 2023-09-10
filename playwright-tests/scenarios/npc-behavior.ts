@@ -37,7 +37,7 @@ export function npcBehavior(): void {
 
   sprites.push(player);
 
-  const enemy = new NPC({ x: 0, y: 0, moveSpeed: 3, radius: 10 });
+  const enemy = new NPC({ x: 1, y: 1, moveSpeed: 3, radius: 10 });
   window.enemy = enemy;
   sprites.push(enemy);
 
@@ -49,25 +49,25 @@ export function npcBehavior(): void {
 
   const weapon = firelance(pool, sprites);
   player.addWeapon(weapon);
+
   enemy.addWeapon(firelance(pool, sprites));
 
   const loop = GameLoop({
     // fps: 1,
-    update: function (this: GameLoop) {
+    update: function (this: GameLoop, dt: number) {
       sprites.refresh();
       sprites.forEach((sprite) => {
-        handleBounds(sprite, canvas);
+        handleBounds(sprite, canvas, dt);
       });
 
       // collision detection
       detectCollisions(sprites);
 
-      sprites.filter((sprite) => sprite.isAlive());
+      sprites.scene.update(dt);
+      sprites.clearDead();
     },
     render: function () {
-      sprites.forEach((sprite) => {
-        sprite.render();
-      });
+      sprites.scene.render();
     },
   });
 
