@@ -1,10 +1,9 @@
-import type { Pool, Sprite } from 'kontra';
+import type { Sprite } from 'kontra';
 import { Weapon } from '../weapon';
 import type SpriteState from '../SpriteState';
 
-export default function firelance(pool: Pool, sprites: SpriteState): Weapon {
+export default function firelance(sprites: SpriteState): Weapon {
   return new Weapon({
-    pool,
     sprites,
     projectileWeapon: true,
     type: 'firelance',

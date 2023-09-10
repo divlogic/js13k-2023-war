@@ -1,14 +1,17 @@
-import { type Sprite, Quadtree, type SceneClass, Scene } from 'kontra';
+import { Sprite, Quadtree, Scene, Pool } from 'kontra';
 
 // I may wish to use a Pool with pool.getAliveObjects()
 // instead of the array method I'm doing now.
 export default class SpriteState {
   quadTree: Quadtree;
   scene: Scene;
-  constructor(initialSprites: Sprite[] = [], scene?: Scene) {
+  pool: Pool;
+  constructor(initialSprites: Sprite[] = [], scene?: Scene, pool?: Pool) {
     this.quadTree = Quadtree();
     this.scene = scene ?? Scene({ id: 'SpriteState' });
     this.scene.add(initialSprites);
+
+    this.pool = pool ?? Pool({ create: Sprite });
   }
 
   forEach(callback: (sprite: Sprite) => void): void {
@@ -37,6 +40,7 @@ export default class SpriteState {
 
   refresh(): void {
     this.quadTree.clear();
+    this.quadTree.add(this.pool.getAliveObjects());
     this.quadTree.add(this.scene.objects);
   }
 
@@ -46,5 +50,15 @@ export default class SpriteState {
         this.scene.remove(obj);
       }
     });
+  }
+
+  update(dt: number): void {
+    this.pool.update(dt);
+    this.scene.update(dt);
+  }
+
+  render(): void {
+    this.pool.render();
+    this.scene.render();
   }
 }

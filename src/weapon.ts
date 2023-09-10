@@ -18,31 +18,25 @@ export class Weapon extends SpriteClass {
     if (this.projectileWeapon) {
       const cos = Math.cos(this.world.rotation);
       const sin = Math.sin(this.world.rotation);
-      const bullet = this.pool.get({
+      const bullet = this.sprites.pool.get({
         team: this.parent?.team,
         type: 'bullet',
         color: 'black',
         x: this.world.x + cos * 12,
         y: this.world.y + sin * 12,
-        dx: this.dx + cos * 5,
-        dy: this.dy + sin * 5,
-        ttl: 200,
+        dx: this.dx + cos * 1000,
+        dy: this.dy + sin * 1000,
+        ttl: 10,
         radius: this.radius,
         width: 2,
         height: 2,
       });
 
-      /**
-       * TODO: This needs to be refactored
-       * so that bullet sprites aren't added to the main sprite object
-       * The docs specifically say you should avoid updating pooled objects
-       * from outside their pool object.
-       **/
       this.sprites.push(bullet as Sprite);
     } else {
       const cos = Math.cos(this.world.rotation);
       const sin = Math.sin(this.world.rotation);
-      const bullet = this.pool.get({
+      const bullet = this.sprites.pool.get({
         team: this.parent?.team,
         type: 'bullet',
         color: 'white',
