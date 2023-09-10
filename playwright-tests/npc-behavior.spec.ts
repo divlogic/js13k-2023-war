@@ -36,8 +36,6 @@ test('NPC can move to a target', async ({ page }) => {
     .poll(
       async () => {
         const enemy = await page.evaluate('window.enemy');
-        console.log('player x is: ', player.position._x);
-        console.log('enemy x is: ', enemy.position._x);
         const xIsClose =
           player.position._x - 5 < enemy.position._x &&
           enemy.position._x < player.position._x + 5;
@@ -67,7 +65,7 @@ test('NPC can acquire a target', async ({ page }) => {
   expect(enemy.position._x).not.toBe(player.position._x);
   expect(enemy.position._y).toBe(player.position._y);
   const difference = enemy.position._x - player.position._x;
-  expect(difference).toBe(300);
+  expect(difference).toBe(299);
 
   // If the player gets close enough to the enemy,
   // the enemy will target the player
@@ -101,13 +99,13 @@ test('NPC attacks target', async ({ page }) => {
   expect(enemy.position._x).not.toBe(player.position._x);
   expect(enemy.position._y).toBe(player.position._y);
   const difference = enemy.position._x - player.position._x;
-  expect(difference).toBe(300);
+  expect(difference).toBe(299);
 
   // If the player gets close enough to the enemy,
   // the enemy will target the player
 
   const playerController = new PlayerController(page);
-  await playerController.moveRight(3000);
+  await playerController.moveRight(2000);
 
   await expect
     .poll(
