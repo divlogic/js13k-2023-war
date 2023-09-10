@@ -3,7 +3,7 @@ import { npcSeekAndDestroy } from './npc-seek-and-destroy';
 import { playerMovement } from './player-movement';
 import { npcAcquireTarget } from './npc-acquire-target';
 import { weapons } from './weapons';
-import { playerAttacking } from './player-attacking';
+import { playerAttacks } from './player-attacks';
 import { buildingHq } from './building-hq';
 
 export const playwrightScenes: Record<string, () => void> = {
@@ -11,7 +11,7 @@ export const playwrightScenes: Record<string, () => void> = {
   playerMovement,
   npcAcquireTarget,
   weapons,
-  playerAttacking,
+  playerAttacks,
   buildingHq,
   npcSeekAndDestroy,
 };
