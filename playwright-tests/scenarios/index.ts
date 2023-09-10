@@ -1,5 +1,6 @@
 import { npcBehavior } from './npc-behavior';
 import { npcSeekAndDestroy } from './npc-seek-and-destroy';
+import { npcSeekAndDestroyAttackInBetween } from './npc-seek-and-destroy copy';
 import { playerMovement } from './player-movement';
 import { npcAcquireTarget } from './npc-acquire-target';
 import { weapons } from './weapons';
@@ -14,4 +15,5 @@ export const playwrightScenes: Record<string, () => void> = {
   playerAttacks,
   buildingHq,
   npcSeekAndDestroy,
+  npcSeekAndDestroyAttackInBetween,
 };
