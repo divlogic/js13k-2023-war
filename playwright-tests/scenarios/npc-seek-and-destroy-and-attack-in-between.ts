@@ -33,7 +33,7 @@ export function npcSeekAndDestroyAttackInBetween(): void {
   });
   sprites.push(hq);
 
-  const blueSprite = new NPC({ team: 'blue', x: 1, y: 500 });
+  const blueSprite = new NPC({ team: 'blue', x: 1, y: 500, moveSpeed: 3 });
   sprites.push(blueSprite);
   window.blueSprite = blueSprite;
 
