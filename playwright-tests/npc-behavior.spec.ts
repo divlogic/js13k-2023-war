@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './my-test';
 import { getObject } from './utils';
 import PlayerController from './reals/PlayerController';
 

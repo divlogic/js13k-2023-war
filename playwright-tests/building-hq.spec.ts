@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './my-test';
 import { getObject } from './utils';
 import type SpriteState from '../src/SpriteState';
 import type { Building } from '../src/sprites/building';

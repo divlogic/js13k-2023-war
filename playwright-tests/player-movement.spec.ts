@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './my-test';
 import fc from 'fast-check';
 import type { CoordModel } from './models/models';
 import PlayerController from './reals/PlayerController';
@@ -6,8 +6,6 @@ import MoveUp from './commands/MoveUp';
 import MoveDown from './commands/MoveDown';
 import MoveLeft from './commands/MoveLeft';
 import MoveRight from './commands/MoveRight';
-
-// const canvasSize = { width: 600, height: 600 };
 
 test('Can move using wasd model based', async ({ page }) => {
   const asyncAssertions = async (): Promise<void> => {

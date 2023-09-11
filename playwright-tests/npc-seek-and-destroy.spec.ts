@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from './my-test';
 
 test.describe('NPC will default to seek and destroy mode', async () => {
   test('Seek and destroy will make them move towards enemy buildings', async ({
