@@ -25,7 +25,7 @@ export function detectCollisions(sprites: SpriteState): void {
         const dx = neighbor.x - sprite.x;
         const dy = neighbor.y - sprite.y;
         const hyp = Math.hypot(dx, dy);
-        if (hyp < 100) {
+        if (hyp < 100 && !neighbor.player) {
           if (neighbor?.addTarget !== null) {
             if (
               neighbor.target === undefined ||
