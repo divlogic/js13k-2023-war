@@ -10,7 +10,7 @@ test.describe('NPC will default to seek and destroy mode', async () => {
     expect(blueSprite.position._x).toBe(1);
     expect(blueSprite.position._y).toBe(500);
 
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(500);
     const updatedBlueSprite = await page.evaluate('window.blueSprite');
     expect(updatedBlueSprite?.target).toBeDefined();
     expect(updatedBlueSprite?.target?.type).toBe('spawner');
@@ -34,7 +34,7 @@ test.describe('NPC will default to seek and destroy mode', async () => {
     expect(updatedBlueSprite?.target).toBeDefined();
     expect(updatedBlueSprite?.target?.type).toBe('spawner');
 
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(1500);
     const finalUpdatedBlueSprite = await page.evaluate('window.blueSprite');
     expect(finalUpdatedBlueSprite?.target).toBeDefined();
     // NPC switches to nearby enemies
