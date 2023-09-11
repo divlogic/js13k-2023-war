@@ -1,4 +1,4 @@
-import { Sprite, init, GameLoop, initPointer, onKey, initKeys } from 'kontra';
+import { init, GameLoop, initPointer, onKey, initKeys } from 'kontra';
 import SpriteState from '../SpriteState';
 import { Character } from '../character';
 import { detectCollisions, handleBounds } from '../collisionDetection';

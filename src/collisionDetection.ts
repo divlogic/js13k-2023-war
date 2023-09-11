@@ -5,6 +5,17 @@ export function detectCollisions(sprites: SpriteState): void {
   sprites.forEach((sprite) => {
     const nearBySprites = sprites.quadTree.get(sprite) as Sprite[];
 
+    if (sprite.mode === 'seekAndDestroy') {
+      if (sprite?.parent?.id === 'SpriteState') {
+        const spawners = sprite.parent.objects.filter((sprite) => {
+          return sprite.type === 'spawner';
+        });
+        if (spawners.length > 0) {
+          sprite.addTarget(spawners[0]);
+        }
+      }
+    }
+
     nearBySprites.forEach((neighbor) => {
       if (
         sprite.type === 'character' &&
@@ -16,7 +27,11 @@ export function detectCollisions(sprites: SpriteState): void {
         const hyp = Math.hypot(dx, dy);
         if (hyp < 100) {
           if (neighbor?.addTarget !== null) {
-            if (neighbor.target === undefined || neighbor.target === null)
+            if (
+              neighbor.target === undefined ||
+              neighbor.target === null ||
+              neighbor.target.type === 'spawner'
+            )
               neighbor.addTarget(sprite);
           }
         }

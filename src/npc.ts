@@ -1,8 +1,12 @@
 import { angleToTarget } from 'kontra';
-import { Character } from './character';
+import { Character, type CharacterProperties } from './character';
+
+interface NPCProperties extends CharacterProperties {}
 
 export class NPC extends Character {
+  timePassed = 0;
   target?: Character;
+  mode?: string = 'seekAndDestroy';
 
   addTarget(character: Character): void {
     this.target = character;
@@ -24,6 +28,11 @@ export class NPC extends Character {
   }
 
   update(dt?: number | undefined): void {
+    this.timePassed += dt;
+    // beginning  of rate limiting functionality
+    if (this.timePassed >= 1) {
+      this.timePassed = 0;
+    }
     if (this.target != null) {
       const angle = angleToTarget(this, this.target);
       this.rotation = angle;
